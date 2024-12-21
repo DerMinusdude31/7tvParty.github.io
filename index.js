@@ -219,6 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'settings.html';
     });
 
+    document.getElementById('feedbackButton').addEventListener('click', () => {
+        window.location.href = 'https://discord.gg/k4fv3PzNSJ';
+    });
+
     // Creator Modal
     document.getElementById('aboutCreator').addEventListener('click', () => {
         document.getElementById('creatorModal').style.display = 'flex';
