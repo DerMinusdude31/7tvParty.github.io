@@ -247,22 +247,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // AI Info Modal
     document.getElementById('aiInfoButton').addEventListener('click', () => {
         document.getElementById('aiInfoModal').style.display = 'flex';
+        document.getElementById('aiInfoModal').style.opacity = '1';
+        document.getElementById('aiInfoModal').style.visibility = 'visible';
         document.querySelector('.background-controls').style.display = 'none';
     });
 
     document.getElementById('closeAiInfo').addEventListener('click', () => {
         document.getElementById('aiInfoModal').style.display = 'none';
+        document.getElementById('aiInfoModal').style.opacity = '0';
+        document.getElementById('aiInfoModal').style.visibility = 'hidden';
         document.querySelector('.background-controls').style.display = 'block';
     });
 
     // AI Warning Modal
     document.getElementById('aiWarningButton').addEventListener('click', () => {
         document.getElementById('aiWarningModal').style.display = 'flex';
+        document.getElementById('aiWarningModal').style.opacity = '1';
+        document.getElementById('aiWarningModal').style.visibility = 'visible';
         document.querySelector('.background-controls').style.display = 'none';
     });
 
     document.getElementById('closeAiWarning').addEventListener('click', () => {
         document.getElementById('aiWarningModal').style.display = 'none';
+        document.getElementById('aiWarningModal').style.opacity = '0';
+        document.getElementById('aiWarningModal').style.visibility = 'hidden';
         document.querySelector('.background-controls').style.display = 'block';
     });
 
