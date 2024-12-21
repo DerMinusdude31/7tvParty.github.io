@@ -465,15 +465,12 @@ body {
     background: rgba(88, 101, 242, 0.2);
     border: 2px solid #5865F2;
     padding: 10px 20px;
-    z-index: 1001;
     text-decoration: none;
     color: var(--text-color);
 }
 
 .feedback-menu-button:hover {
     background: rgba(88, 101, 242, 0.3);
-    transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
 }
 
 .feedback-menu-button .icon {
