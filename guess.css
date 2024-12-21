@@ -1,8 +1,8 @@
 :root {
-    --primary-color: #4CAF50;
-    --hover-color: #45a049;
-    --background-dark: #1a1a1a;
-    --panel-background: rgba(0, 0, 0, 0.7);
+    --primary-color: #9146FF;
+    --hover-color: #772CE8;
+    --background-dark: #0E0E10;
+    --panel-background: rgba(14, 14, 16, 0.8);
     --text-color: white;
     --border-radius: 10px;
 }
@@ -38,7 +38,7 @@ body {
 }
 
 .game-container {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(51, 51, 51, 0.7);
     padding: 2.5rem;
     border-radius: var(--border-radius);
     text-align: center;
@@ -47,45 +47,21 @@ body {
                 inset 0 0 15px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     position: relative;
-    margin-top: 60px;
+    margin-top: 20px;
 }
 
 .game-container::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, 
-        var(--primary-color), 
-        transparent, 
-        transparent, 
-        var(--primary-color)
-    );
-    border-radius: calc(var(--border-radius) + 2px);
-    z-index: -1;
-    opacity: 0.5;
+    display: none;
 }
 
 #gameScore {
-    font-size: 2.5em;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    position: relative;
+    font-size: 1.8em;
+    margin-bottom: 1rem;
+    text-shadow: none;
 }
 
 #gameScore::after {
-    content: '';
-    display: block;
-    width: 60%;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent, 
-        var(--primary-color), 
-        transparent
-    );
-    margin: 0.5rem auto 1.5rem;
+    display: none;
 }
 
 #emoteGuess {
@@ -93,15 +69,13 @@ body {
 }
 
 #emoteToGuess {
-    width: 160px;
-    height: 160px;
-    margin-bottom: 2rem;
-    border-radius: var(--border-radius);
-    border: 2px solid var(--primary-color);
-    box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
-    transition: all 0.3s ease;
-    background: rgba(51, 51, 51, 0.9);
-    padding: 10px;
+    width: 128px;
+    height: 128px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    background: transparent;
+    padding: 5px;
 }
 
 #emoteToGuess:hover {
@@ -113,11 +87,11 @@ body {
     width: 100%;
     padding: 15px 20px;
     margin: 1rem 0;
-    background: rgba(76, 175, 80, 0.1);
-    border: 2px solid var(--primary-color);
+    background: rgba(51, 51, 51, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius);
     color: var(--text-color);
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
     backdrop-filter: blur(5px);
     transition: all 0.3s ease;
@@ -135,13 +109,13 @@ body {
 .button-group {
     display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .menu-button {
     padding: 15px 20px;
     font-size: 1.2em;
-    background: rgba(76, 175, 80, 0.1);
+    background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
     color: var(--text-color);
@@ -173,10 +147,10 @@ body {
 }
 
 .menu-button:hover {
-    background: rgba(76, 175, 80, 0.2);
+    background: rgba(145, 70, 255, 0.2);
     transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
-                inset 0 0 10px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
+                inset 0 0 10px rgba(145, 70, 255, 0.2);
 }
 
 .menu-button:hover::before {
@@ -284,7 +258,7 @@ body {
 .set-input input {
     flex: 1;
     padding: 15px;
-    background: rgba(76, 175, 80, 0.1);
+    background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
     color: var(--text-color);
@@ -295,9 +269,9 @@ body {
 
 .set-input input:focus {
     outline: none;
-    background: rgba(76, 175, 80, 0.2);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
-                inset 0 0 10px rgba(76, 175, 80, 0.2);
+    background: rgba(145, 70, 255, 0.2);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
+                inset 0 0 10px rgba(145, 70, 255, 0.2);
     transform: translateY(-2px);
 }
 
@@ -390,4 +364,31 @@ body {
     left: 20px !important;
     margin: 0 !important;
     z-index: 1000;
+}
+
+/* Entfernen Sie die alten #backToMenu Styles und ersetzen Sie sie mit diesen */
+#backToMenu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 15px 20px;
+    background: rgba(51, 51, 51, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#backToMenu:hover {
+    background: rgba(51, 51, 51, 0.9);
+    transform: translateY(-2px);
 }

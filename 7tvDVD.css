@@ -1,12 +1,12 @@
 /* 7tvDVD.css */
 :root {
-    --primary-color: #4CAF50;
-    --hover-color: #45a049;
-    --background-dark: #1a1a1a;
-    --panel-background: rgba(0, 0, 0, 0.8);
+    --primary-color: #9146FF;
+    --hover-color: #772CE8;
+    --background-dark: #0E0E10;
+    --panel-background: rgba(14, 14, 16, 0.8);
     --text-color: white;
     --border-radius: 10px;
-    --menu-gradient: linear-gradient(45deg, #4CAF50, #2196F3);
+    --menu-gradient: linear-gradient(45deg, #9146FF, #772CE8);
 }
 
 body {
@@ -103,7 +103,7 @@ body {
 .menu-button {
     padding: 15px 20px;
     font-size: 1.2em;
-    background: rgba(76, 175, 80, 0.1);
+    background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
     color: var(--text-color);
@@ -120,10 +120,10 @@ body {
 }
 
 .menu-button:hover {
-    background: rgba(76, 175, 80, 0.2);
+    background: rgba(145, 70, 255, 0.2);
     transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
-                inset 0 0 10px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
+                inset 0 0 10px rgba(145, 70, 255, 0.2);
 }
 
 .menu-button::before {
@@ -147,13 +147,13 @@ body {
 }
 
 .creator-button {
-    background: linear-gradient(45deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.2));
-    border-color: blueviolet;
+    background: linear-gradient(45deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
+    border-color: var(--primary-color);
 }
 
 .creator-button:hover {
-    background: linear-gradient(45deg, rgba(138, 43, 226, 0.3), rgba(75, 0, 130, 0.3));
-    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+    background: linear-gradient(45deg, rgba(145, 70, 255, 0.3), rgba(119, 44, 232, 0.3));
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
 }
 
 .button-content {

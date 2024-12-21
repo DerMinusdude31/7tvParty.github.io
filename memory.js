@@ -134,7 +134,7 @@ function flipCard() {
 
 // Navigation
 document.getElementById('backToMenu').addEventListener('click', () => {
-    window.location.href = '7tvDVD.html';
+    window.location.href = 'index.html';
 });
 
 // Start Game

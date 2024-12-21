@@ -221,7 +221,7 @@ document.getElementById('revealAnswer').addEventListener('click', revealAnswer);
 
 document.getElementById('backToMenu').addEventListener('click', () => {
     if (!gameActive || confirm('Möchtest du wirklich zum Hauptmenü zurückkehren? Dein Spielfortschritt geht verloren.')) {
-        window.location.href = '7tvDVD.html';
+        window.location.href = 'index.html';
     }
 });
 

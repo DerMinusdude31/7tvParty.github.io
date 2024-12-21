@@ -277,7 +277,7 @@ function initGame() {
 
 // Navigation
 document.getElementById('backToMenu').addEventListener('click', () => {
-    window.location.href = '7tvDVD.html';
+    window.location.href = 'index.html';
 });
 
 // Einstellungen-Toggle

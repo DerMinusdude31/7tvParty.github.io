@@ -1,8 +1,8 @@
 :root {
-    --primary-color: #4CAF50;
-    --hover-color: #45a049;
-    --background-dark: #1a1a1a;
-    --panel-background: rgba(0, 0, 0, 0.7);
+    --primary-color: #9146FF;
+    --hover-color: #772CE8;
+    --background-dark: #0E0E10;
+    --panel-background: rgba(14, 14, 16, 0.8);
     --text-color: white;
     --border-radius: 10px;
 }
@@ -62,7 +62,7 @@ body {
 
 .memory-card {
     aspect-ratio: 1;
-    background: rgba(51, 51, 51, 0.9);
+    background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -75,7 +75,7 @@ body {
 
 .memory-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
 }
 
 .memory-card.flipped {
@@ -93,9 +93,9 @@ body {
     font-size: 2em;
     color: var(--primary-color);
     backface-visibility: hidden;
-    background: rgba(51, 51, 51, 0.9);
+    background: rgba(145, 70, 255, 0.1);
     border-radius: 8px;
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
 }
 
 .memory-card img {
@@ -112,7 +112,7 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    background: rgba(76, 175, 80, 0.1);
+    background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
     color: var(--text-color);
     padding: 10px 20px;
@@ -127,10 +127,10 @@ body {
 }
 
 .menu-button:hover {
-    background: rgba(76, 175, 80, 0.2);
+    background: rgba(145, 70, 255, 0.2);
     transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
-                inset 0 0 10px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
+                inset 0 0 10px rgba(145, 70, 255, 0.2);
 }
 
 #loading {
