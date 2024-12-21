@@ -395,7 +395,9 @@ body {
 
 /* Einstellungen & Hilfe Styles */
 .settings-content {
-    max-width: 1000px;
+    max-width: 1200px;
+    max-height: 80vh;
+    overflow-y: auto;
     text-align: left;
 }
 
@@ -450,4 +452,27 @@ code {
     border-radius: 4px;
     font-family: monospace;
     color: #ddd;
+}
+
+/* Scrollbar Styling */
+.settings-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.settings-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+/* Button Position */
+.settings-content #backToMenu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin: 0;
 }
