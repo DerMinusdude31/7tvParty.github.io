@@ -458,32 +458,22 @@ body {
     visibility: visible;
 }
 
-.feedback-button {
-    position: fixed;
+.feedback-menu-button {
+    position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 20px;
     background: rgba(88, 101, 242, 0.2);
     border: 2px solid #5865F2;
-    border-radius: var(--border-radius);
-    color: var(--text-color);
-    text-decoration: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
+    padding: 10px 20px;
     z-index: 1001;
-    backdrop-filter: blur(5px);
 }
 
-.feedback-button:hover {
+.feedback-menu-button:hover {
     background: rgba(88, 101, 242, 0.3);
     transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(88, 101, 242, 0.3),
-                inset 0 0 10px rgba(88, 101, 242, 0.2);
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
 }
 
-.feedback-button .icon {
+.feedback-menu-button .icon {
     font-size: 1.2em;
 }
