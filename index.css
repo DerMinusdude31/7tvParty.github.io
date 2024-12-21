@@ -213,13 +213,17 @@ body {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal.active {
+.modal.show {
+    display: flex;
     opacity: 1;
     visibility: visible;
 }
 
 .creator-info {
     margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
 }
 
 .creator-item {

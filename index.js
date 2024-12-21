@@ -225,10 +225,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Creator Modal
     document.getElementById('aboutCreator').addEventListener('click', () => {
         document.getElementById('creatorModal').style.display = 'flex';
+        document.getElementById('creatorModal').style.opacity = '1';
+        document.getElementById('creatorModal').style.visibility = 'visible';
+        document.querySelector('.background-controls').style.display = 'none';
     });
 
     document.getElementById('closeModal').addEventListener('click', () => {
         document.getElementById('creatorModal').style.display = 'none';
+        document.getElementById('creatorModal').style.opacity = '0';
+        document.getElementById('creatorModal').style.visibility = 'hidden';
+        document.querySelector('.background-controls').style.display = 'block';
     });
 
     document.getElementById('closeSettings').addEventListener('click', () => {
