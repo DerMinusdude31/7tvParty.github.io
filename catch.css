@@ -156,16 +156,6 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.draggable {
-    cursor: move;
-    user-select: none;
-}
-
-.dragging {
-    opacity: 0.8;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
-}
-
 #loading {
     position: fixed;
     top: 50%;

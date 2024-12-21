@@ -322,10 +322,7 @@ loadEmotes();
 
 function makeDraggable() {
     const draggables = [
-        document.getElementById('gameInfo'),
-        document.getElementById('gameControls'),
-        document.getElementById('backToMenu'),
-        document.getElementById('toggleSettings')
+        // Keine beweglichen Elemente im Catcher-Modus
     ];
 
     draggables.forEach(element => {
