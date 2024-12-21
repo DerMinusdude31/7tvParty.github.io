@@ -235,6 +235,10 @@ document.getElementById('catchMode').addEventListener('click', () => {
     window.location.href = 'catch.html';
 });
 
+document.getElementById('helpSettings').addEventListener('click', () => {
+    window.location.href = 'settings.html';
+});
+
 // Füge diese Event Listener hinzu
 document.getElementById('aiInfoButton').addEventListener('click', () => {
     document.getElementById('aiInfoModal').style.display = 'flex';
