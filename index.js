@@ -229,6 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('creatorModal').style.display = 'none';
     });
 
+    document.getElementById('closeSettings').addEventListener('click', () => {
+        document.getElementById('settingsModal').style.display = 'none';
+        document.querySelector('.background-controls').style.display = 'block';
+    });
+
     // AI Info Modal
     document.getElementById('aiInfoButton').addEventListener('click', () => {
         document.getElementById('aiInfoModal').style.display = 'flex';
@@ -248,12 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('closeAiWarning').addEventListener('click', () => {
         document.getElementById('aiWarningModal').style.display = 'none';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    // Settings Modal Close Button
-    document.getElementById('closeSettings').addEventListener('click', () => {
-        document.getElementById('settingsModal').style.display = 'none';
         document.querySelector('.background-controls').style.display = 'block';
     });
 
