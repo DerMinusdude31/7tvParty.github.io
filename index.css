@@ -466,6 +466,8 @@ body {
     border: 2px solid #5865F2;
     padding: 10px 20px;
     z-index: 1001;
+    text-decoration: none;
+    color: var(--text-color);
 }
 
 .feedback-menu-button:hover {
