@@ -458,18 +458,6 @@ body {
     visibility: visible;
 }
 
-.feedback-menu-button {
-    background: linear-gradient(45deg, rgba(88, 101, 242, 0.3), rgba(71, 82, 196, 0.3));
-    border-color: #5865F2;
-    position: relative;
-    overflow: visible;
-}
-
-.feedback-menu-button:hover {
-    background: linear-gradient(45deg, rgba(88, 101, 242, 0.4), rgba(71, 82, 196, 0.4));
-    box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
-}
-
 .feedback-button {
     position: fixed;
     top: 20px;
