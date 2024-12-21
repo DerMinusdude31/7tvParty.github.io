@@ -25,8 +25,9 @@ body {
 
 #gameInfo {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.7);
     padding: 15px 30px;
     border-radius: var(--border-radius);
@@ -178,4 +179,24 @@ body {
     backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: var(--border-radius);
+}
+
+/* Positionierung der Buttons */
+#backToMenu {
+    top: 10px;
+    left: 10px;
+    background: rgba(145, 70, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px 16px;
+}
+
+#toggleSettings {
+    top: 10px;
+    right: 10px;
+}
+
+#gameInfo {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 } 

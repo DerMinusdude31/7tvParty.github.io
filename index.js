@@ -216,11 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('helpSettings').addEventListener('click', () => {
-        window.location.href = 'settings.html';
-    });
-
-    document.getElementById('feedbackButton').addEventListener('click', () => {
-        window.location.href = 'https://discord.gg/k4fv3PzNSJ';
+        document.getElementById('settingsModal').style.display = 'flex';
+        document.querySelector('.background-controls').style.display = 'none';
     });
 
     // Creator Modal
@@ -254,12 +251,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.background-controls').style.display = 'block';
     });
 
+    // Settings Modal Close Button
+    document.getElementById('closeSettings').addEventListener('click', () => {
+        document.getElementById('settingsModal').style.display = 'none';
+        document.querySelector('.background-controls').style.display = 'block';
+    });
+
     // Global Modal Handling
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             document.getElementById('creatorModal').style.display = 'none';
             document.getElementById('aiInfoModal').style.display = 'none';
             document.getElementById('aiWarningModal').style.display = 'none';
+            document.getElementById('settingsModal').style.display = 'none';
             document.querySelector('.background-controls').style.display = 'block';
         }
     });

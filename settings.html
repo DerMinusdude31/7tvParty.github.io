@@ -8,8 +8,8 @@
 <body>
     <canvas id="background-canvas"></canvas>
     
-    <div class="menu-overlay">
-        <div class="menu-content settings-content" style="max-width: 1100px; max-height: 500px; overflow-y: auto;">
+    <div id="settingsModal" class="modal">
+        <div class="modal-content menu-content">
             <h1 class="menu-title">Einstellungen & Hilfe</h1>
             
             <div class="settings-section">
@@ -84,17 +84,11 @@
                 </div>
             </div>
 
-            <button id="backToMenu" class="menu-button">
+            <button id="closeSettings" class="menu-button">
                 <span class="icon">🏠</span>
-                <span class="text">Zurück zum Menü</span>
+                <span class="text">Schließen</span>
             </button>
         </div>
     </div>
-
-    <script>
-        document.getElementById('backToMenu').addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-    </script>
 </body>
 </html> 

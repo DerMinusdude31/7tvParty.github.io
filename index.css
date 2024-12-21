@@ -460,13 +460,15 @@ body {
 
 .feedback-menu-button {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 0;
+    left: 0;
     background: rgba(88, 101, 242, 0.2);
     border: 2px solid #5865F2;
     padding: 10px 20px;
     text-decoration: none;
     color: var(--text-color);
+    border-radius: 0;
+    border-left: none;
 }
 
 .feedback-menu-button:hover {
@@ -475,4 +477,130 @@ body {
 
 .feedback-menu-button .icon {
     font-size: 1.2em;
+}
+
+.feedback-button {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    background: rgba(145, 70, 255, 0.1);
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    z-index: 1000;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    backdrop-filter: blur(5px);
+    width: 180px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.feedback-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(145, 70, 255, 0.25),
+                inset 0 0 8px rgba(145, 70, 255, 0.15);
+}
+
+.feedback-button .icon {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+#settingsModal .modal-content {
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: left;
+    position: relative;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.settings-section {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: rgba(145, 70, 255, 0.1);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.settings-section:hover {
+    background: rgba(145, 70, 255, 0.15);
+}
+
+.info-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.info-box:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#settingsModal .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin: 0;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+#settingsModal .close-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Scrollbar für Settings */
+#settingsModal .modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+#settingsModal .modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#settingsModal .modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+/* Settings Überschriften */
+#settingsModal h2 {
+    font-size: 1.4em;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+#settingsModal h3 {
+    font-size: 1.1em;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+#settingsModal ul {
+    margin: 0.5rem 0;
+    padding-left: 1.2rem;
+}
+
+#settingsModal li {
+    margin: 0.3rem 0;
+    color: #ddd;
 }

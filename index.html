@@ -10,12 +10,6 @@
     
     <div id="startMenu" class="menu-overlay">
         <div class="menu-content">
-            <a href="https://discord.gg/k4fv3PzNSJ" target="_blank" class="menu-button feedback-menu-button">
-                <div class="button-content">
-                    <span class="icon">💭</span>
-                    <span class="text">Feedback</span>
-                </div>
-            </a>
             <h1 class="menu-title">7TV Emote Party</h1>
             <div class="version">Version 1.0.0</div>
             <div class="menu-buttons">
@@ -162,6 +156,90 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content menu-content">
+            <h1 class="menu-title">Einstellungen & Hilfe</h1>
+            
+            <div class="settings-section">
+                <h2>🎮 Spielmodi</h2>
+                <div class="info-box">
+                    <h3>Klassischer Modus</h3>
+                    <p>Bewegende Emotes mit verschiedenen Hintergründen. Du kannst:</p>
+                    <ul>
+                        <li>Emotes durch Klicken ändern</li>
+                        <li>Mit Leertaste alle Emotes gleichzeitig ändern</li>
+                        <li>Mit ESC die Einstellungen öffnen</li>
+                        <li>Verschiedene Hintergründe auswählen</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Rate Modus</h3>
+                    <p>Teste dein Emote-Wissen! Funktionsweise:</p>
+                    <ul>
+                        <li>Ein zufälliges Emote wird angezeigt</li>
+                        <li>Gib den Namen des Emotes ein</li>
+                        <li>Richtige Antwort: +100 Punkte & +5 Sekunden</li>
+                        <li>Auflösen kostet 50 Punkte</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Memory</h3>
+                    <p>Klassisches Memory-Spiel mit Emotes:</p>
+                    <ul>
+                        <li>Finde passende Emote-Paare</li>
+                        <li>Je weniger Züge, desto besser</li>
+                        <li>Trainiere dein Emote-Gedächtnis</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Emote Catcher</h3>
+                    <p>Fange fallende Emotes:</p>
+                    <ul>
+                        <li>Bewege dich mit ← → oder A D</li>
+                        <li>Fange Emotes für Punkte</li>
+                        <li>Verpasse nicht zu viele (3 Leben)</li>
+                        <li>Power-ups für extra Größe/Geschwindigkeit</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>⚙️ Emote-Sets</h2>
+                <div class="info-box">
+                    <h3>Set-IDs</h3>
+                    <p>Du kannst verschiedene Emote-Sets verwenden:</p>
+                    <ul>
+                        <li>"global" - Globale 7TV Emotes</li>
+                        <li>Custom Set ID - Dein eigenes Set</li>
+                    </ul>
+                    <p>Set-ID findest du in der URL deines 7TV Sets:<br>
+                    <code>7tv.app/emote-sets/[DEINE-SET-ID]</code></p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>💡 Tipps & Tricks</h2>
+                <div class="info-box">
+                    <ul>
+                        <li>Rechtsklick ändert alle Emotes im klassischen Modus</li>
+                        <li>Halte die Maus über Buttons für mehr Infos</li>
+                        <li>Nutze die Tastatur für schnellere Eingaben</li>
+                        <li>Interface-Elemente sind verschiebbar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button id="closeSettings" class="menu-button close-button">
+                <span class="icon">✖️</span>
+                <span class="text">Schließen</span>
+            </button>
+        </div>
+    </div>
+
     <div class="background-controls">
         <button id="toggleBackground" class="control-button">
             <span class="icon">🌟</span>
@@ -171,5 +249,9 @@
 
     <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
     <script src="./index.js"></script>
+    <a href="https://discord.gg/k4fv3PzNSJ" target="_blank" class="feedback-button">
+        <span class="icon">💭</span>
+        <span>Feedback</span>
+    </a>
 </body>
 </html> 
