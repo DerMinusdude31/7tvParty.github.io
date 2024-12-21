@@ -11,7 +11,7 @@
     <div id="startMenu" class="menu-overlay">
         <div class="menu-content">
             <h1 class="menu-title">7TV Emote Party</h1>
-            <div class="version">Version 1.0.0</div>
+            <div class="version">Version 1.1.0</div>
             <div class="menu-buttons">
                 <button id="classicMode" class="menu-button">
                     <div class="button-content">
@@ -252,6 +252,59 @@
         <span class="icon">💭</span>
         <span>Feedback</span>
     </a>
+
+    <button id="patchNotesButton" class="patch-notes-button">
+        <span class="icon">📝</span>
+        <span>v1.1.0</span>
+    </button>
+
+    <!-- Patch Notes Modal -->
+    <div id="patchNotesModal" class="modal">
+        <div class="modal-content menu-content">
+            <h2 class="menu-title">Patch Notes</h2>
+            <div class="patch-notes">
+                <div class="patch-version">
+                    <h3>Version 1.1.0</h3>
+                    <ul>
+                        <li>🎮 Catch-Spiel überarbeitet:</li>
+                        <ul>
+                            <li>Spielfeld auf 800x600 begrenzt</li>
+                            <li>Bessere Spielbalance</li>
+                            <li>Visuelles Feedback verbessert</li>
+                            <li>Neue Level-Progression</li>
+                        </ul>
+                        <li>✨ Neue Features:</li>
+                        <ul>
+                            <li>Patch Notes hinzugefügt</li>
+                            <li>Feedback-Button für Discord</li>
+                            <li>Verbesserte Einstellungen & Hilfe</li>
+                        </ul>
+                        <li>🎨 Design-Updates:</li>
+                        <ul>
+                            <li>Neue Button-Designs</li>
+                            <li>Verbesserte Hover-Effekte</li>
+                            <li>Konsistenteres Layout</li>
+                        </ul>
+                    </ul>
+                </div>
+                <div class="patch-version">
+                    <h3>Version 1.0.0</h3>
+                    <ul>
+                        <li>🎮 Initiale Version</li>
+                        <li>✨ Vier Spielmodi: Emote Party, Ratespiel, Memory, Catcher</li>
+                        <li>🌟 Dynamische Hintergrund-Effekte</li>
+                        <li>🎨 Responsives Design</li>
+                        <li>🔧 Einstellbare Emote-Sets</li>
+                    </ul>
+                </div>
+            </div>
+            <button id="closePatchNotes" class="menu-button close-button">
+                <span class="icon">✖️</span>
+                <span class="text">Schließen</span>
+            </button>
+        </div>
+    </div>
+
     <script src="./index.js"></script>
 </body>
 </html> 

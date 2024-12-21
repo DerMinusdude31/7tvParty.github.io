@@ -16,16 +16,23 @@ let gameSettings = {
     platformSize: 100,
     platformSpeed: 10,
     emoteSetId: 'global',
-    spawnRate: 0.03,
-    emoteSpeed: 2,
+    spawnRate: 0.02,
+    emoteSpeed: 1.5,
     level: 1
 };
 
 let powerups = [];
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Begrenztes Spielfeld
+    canvas.width = Math.min(800, window.innerWidth);
+    canvas.height = Math.min(600, window.innerHeight);
+    
+    // Zentriere das Canvas
+    canvas.style.position = 'absolute';
+    canvas.style.left = '50%';
+    canvas.style.top = '50%';
+    canvas.style.transform = 'translate(-50%, -50%)';
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -37,7 +44,7 @@ class Player {
         this.width = gameSettings.platformSize;
         this.height = 20;
         this.x = canvas.width / 2 - this.width / 2;
-        this.y = canvas.height - 50;
+        this.y = canvas.height - 30;
         this.speed = gameSettings.platformSpeed;
         this.color = '#4CAF50';
         this.powerupActive = false;
@@ -60,10 +67,10 @@ class Player {
 // Falling Emote
 class FallingEmote {
     constructor() {
-        this.size = 40;
+        this.size = 48;
         this.x = Math.random() * (canvas.width - this.size);
         this.y = -this.size;
-        this.speed = Math.random() * 2 + 2;
+        this.speed = Math.random() * 0.8 + gameSettings.emoteSpeed;
         this.emote = emotes[Math.floor(Math.random() * emotes.length)];
         this.img = null;
         this.loadImage();
@@ -102,6 +109,8 @@ class FallingEmote {
             lives--;
             document.getElementById('lives').textContent = lives;
             if (lives <= 0) {
+                lives = 0;
+                document.getElementById('lives').textContent = lives;
                 gameOver();
             }
             return true;
@@ -168,69 +177,118 @@ document.addEventListener('keydown', e => keys[e.key] = true);
 document.addEventListener('keyup', e => keys[e.key] = false);
 
 function gameUpdate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Wenn das Spiel läuft oder noch Emotes fallen
+    if (gameStarted || fallingEmotes.length > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    player.move(keys);
-    player.draw();
+        player.move(keys);
+        player.draw();
 
-    // Neue Emotes spawnen
-    if (Math.random() < gameSettings.spawnRate) {
-        fallingEmotes.push(new FallingEmote());
+        // Neue Emotes spawnen nur wenn das Spiel noch läuft
+        if (gameStarted && Math.random() < gameSettings.spawnRate) {
+            fallingEmotes.push(new FallingEmote());
+        }
+
+        fallingEmotes = fallingEmotes.filter(emote => {
+            emote.draw();
+            return !emote.move();
+        });
+
+        // Powerups spawnen nur wenn das Spiel noch läuft
+        if (gameStarted && Math.random() < 0.005) {
+            powerups.push(new Powerup());
+        }
+
+        powerups = powerups.filter(powerup => {
+            powerup.draw();
+            return !powerup.move();
+        });
+
+        // Level-System
+        if (score > 0 && score % 10 === 0) {
+            gameSettings.level = Math.floor(score / 10) + 1;
+            gameSettings.spawnRate = Math.min(0.025, 0.01 + (gameSettings.level - 1) * 0.002);
+            gameSettings.emoteSpeed = Math.min(2.5, 1.2 + (gameSettings.level - 1) * 0.1);
+            document.getElementById('level').textContent = gameSettings.level;
+        }
+
+        gameLoop = requestAnimationFrame(gameUpdate);
+    } else {
+        // Wenn keine Emotes mehr fallen und das Spiel gestoppt ist, zeige Game Over
+        if (!document.querySelector('.game-over-box')) {
+            showGameOver();
+        }
     }
-
-    fallingEmotes = fallingEmotes.filter(emote => {
-        emote.draw();
-        return !emote.move();
-    });
-
-    // Powerups spawnen
-    if (Math.random() < 0.005) {
-        powerups.push(new Powerup());
-    }
-
-    powerups = powerups.filter(powerup => {
-        powerup.draw();
-        return !powerup.move();
-    });
-
-    // Level-System
-    if (score > 0 && score % 10 === 0) {
-        gameSettings.level = Math.floor(score / 10) + 1;
-        gameSettings.spawnRate = Math.min(0.08, 0.03 + (gameSettings.level - 1) * 0.005);
-        gameSettings.emoteSpeed = Math.min(5, 2 + (gameSettings.level - 1) * 0.2);
-        document.getElementById('level').textContent = gameSettings.level;
-    }
-
-    gameLoop = requestAnimationFrame(gameUpdate);
 }
 
 function gameOver() {
     cancelAnimationFrame(gameLoop);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = 'white';
-    ctx.font = '48px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('Game Over!', canvas.width/2, canvas.height/2 - 50);
-    ctx.font = '24px Arial';
-    ctx.fillText(`Score: ${score}`, canvas.width/2, canvas.height/2 + 10);
-    ctx.fillText('Drücke Leertaste zum Neustarten', canvas.width/2, canvas.height/2 + 50);
-    
     gameStarted = false;
+    // Warte bis alle Emotes den Boden erreicht haben
+    if (fallingEmotes.length === 0) {
+        showGameOver();
+    } else {
+        // Starte die Animation wieder für die verbleibenden Emotes
+        gameLoop = requestAnimationFrame(gameUpdate);
+    }
+}
+
+function showGameOver() {
+    // Game Over Box anzeigen
+    const gameOverBox = document.createElement('div');
+    gameOverBox.className = 'game-over-box';
+    gameOverBox.innerHTML = `
+        <h2>Spiel vorbei!</h2>
+        <div class="score-info">
+            <p>Score: ${score}</p>
+            <p>Highscore: ${highscore}</p>
+            <p>Level erreicht: ${gameSettings.level}</p>
+        </div>
+        <div class="game-over-buttons">
+            <button id="restartGame" class="menu-button">
+                <span class="icon">🔄</span>
+                <span class="text">Neustarten</span>
+            </button>
+            <button id="backToMenuFromGame" class="menu-button">
+                <span class="icon">🏠</span>
+                <span class="text">Zum Menü</span>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(gameOverBox);
+    
+    // Event Listener für die Buttons
+    document.getElementById('restartGame').addEventListener('click', () => {
+        document.body.removeChild(gameOverBox);
+        fallingEmotes = [];
+        powerups = [];
+        startGame();
+    });
+    
+    document.getElementById('backToMenuFromGame').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
 }
 
 function startGame() {
     if (!gameStarted) {
+        // Lösche den alten Game Over Screen
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
         gameStarted = true;
         score = 0;
-        lives = 3;
+        lives = 5;
+        gameSettings.level = 1;
+        gameSettings.spawnRate = 0.01;
+        gameSettings.emoteSpeed = 1.2;
         document.getElementById('score').textContent = score;
         document.getElementById('lives').textContent = lives;
         document.getElementById('highscore').textContent = highscore;
+        document.getElementById('level').textContent = gameSettings.level;
         fallingEmotes = [];
+        powerups = [];
         player = new Player();
         gameLoop = requestAnimationFrame(gameUpdate);
     }
@@ -427,4 +485,14 @@ function addResetPositionsButton() {
 document.addEventListener('DOMContentLoaded', () => {
     makeDraggable();
     addResetPositionsButton();
-}); 
+});
+
+function checkLives() {
+    if (lives <= 0) {
+        lives = 0;  // Verhindere negative Leben
+        document.getElementById('lives').textContent = lives;
+        gameOver();
+        return false;
+    }
+    return true;
+} 

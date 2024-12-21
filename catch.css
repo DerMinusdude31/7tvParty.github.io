@@ -8,6 +8,10 @@
 }
 
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -18,9 +22,14 @@ body {
 
 #gameCanvas {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 0;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.2);
 }
 
 #gameInfo {
@@ -39,7 +48,24 @@ body {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
                 inset 0 0 15px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    min-width: 400px;
+    justify-content: center;
 }
+
+#gameInfo span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#gameInfo span::before {
+    font-size: 1.2em;
+}
+
+#score::before { content: "🎯"; }
+#highscore::before { content: "🏆"; }
+#lives::before { content: "❤️"; }
+#level::before { content: "⭐"; }
 
 #gameControls {
     position: absolute;
@@ -50,12 +76,16 @@ body {
     padding: 10px 20px;
     border-radius: var(--border-radius);
     font-size: 0.9em;
-    color: #888;
+    color: #aaa;
     z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
-                inset 0 0 15px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#gameControls::before {
+    content: "🎮";
+    font-size: 1.2em;
 }
 
 .menu-button, .control-button {
@@ -199,4 +229,58 @@ body {
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.game-over-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+    z-index: 2000;
+    text-align: center;
+    min-width: 300px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.game-over-box h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+}
+
+.score-info {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(145, 70, 255, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.score-info p {
+    margin: 0.5rem 0;
+    font-size: 1.2em;
+    color: #fff;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.game-over-buttons .menu-button {
+    position: relative;
+    padding: 10px 20px;
+    min-width: 120px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
 } 

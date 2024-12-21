@@ -274,6 +274,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.background-controls').style.display = 'block';
     });
 
+    // Patch Notes Modal
+    document.getElementById('patchNotesButton').addEventListener('click', () => {
+        document.getElementById('patchNotesModal').style.display = 'flex';
+        document.getElementById('patchNotesModal').style.opacity = '1';
+        document.getElementById('patchNotesModal').style.visibility = 'visible';
+        document.querySelector('.background-controls').style.display = 'none';
+    });
+
+    document.getElementById('closePatchNotes').addEventListener('click', () => {
+        document.getElementById('patchNotesModal').style.display = 'none';
+        document.getElementById('patchNotesModal').style.opacity = '0';
+        document.getElementById('patchNotesModal').style.visibility = 'hidden';
+        document.querySelector('.background-controls').style.display = 'block';
+    });
+
     // Global Modal Handling
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -281,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('aiInfoModal').style.display = 'none';
             document.getElementById('aiWarningModal').style.display = 'none';
             document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('patchNotesModal').style.display = 'none';
             document.querySelector('.background-controls').style.display = 'block';
         }
     });
