@@ -208,6 +208,14 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .creator-info {
@@ -562,6 +570,7 @@ body {
     border: none;
     cursor: pointer;
     z-index: 1002;
+    color: var(--text-color);
 }
 
 #settingsModal .close-button:hover {

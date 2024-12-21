@@ -217,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('helpSettings').addEventListener('click', () => {
         document.getElementById('settingsModal').style.display = 'flex';
+        document.getElementById('settingsModal').style.opacity = '1';
+        document.getElementById('settingsModal').style.visibility = 'visible';
         document.querySelector('.background-controls').style.display = 'none';
     });
 
@@ -231,6 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('closeSettings').addEventListener('click', () => {
         document.getElementById('settingsModal').style.display = 'none';
+        document.getElementById('settingsModal').style.opacity = '0';
+        document.getElementById('settingsModal').style.visibility = 'hidden';
         document.querySelector('.background-controls').style.display = 'block';
     });
 
