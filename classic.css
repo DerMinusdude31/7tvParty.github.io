@@ -1,0 +1,223 @@
+:root {
+    --primary-color: #4CAF50;
+    --hover-color: #45a049;
+    --background-dark: #1a1a1a;
+    --panel-background: rgba(0, 0, 0, 0.7);
+    --text-color: white;
+    --border-radius: 10px;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    background: var(--background-dark);
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#emotes-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.emote {
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+#loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--panel-background);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    z-index: 2000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.control-button {
+    position: fixed;
+    background: rgba(76, 175, 80, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-button:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
+                inset 0 0 10px rgba(76, 175, 80, 0.2);
+}
+
+#toggleSettings {
+    top: 20px;
+    left: 20px;
+}
+
+#randomizeAll {
+    top: 20px;
+    left: 160px;
+}
+
+#backToMenu {
+    top: 20px;
+    right: 20px;
+}
+
+#settings {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    background: var(--panel-background);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    z-index: 1000;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+#settings h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1.5em;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.setting-group {
+    margin-bottom: 15px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ddd;
+}
+
+.setting-group input[type="number"],
+.setting-group input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--primary-color);
+    background: rgba(51, 51, 51, 0.9);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(5px);
+}
+
+.setting-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+#applySettings {
+    width: 100%;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#applySettings:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+#modes {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+    background: var(--panel-background);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.mode-button {
+    background: rgba(76, 175, 80, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.mode-button:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3),
+                inset 0 0 10px rgba(76, 175, 80, 0.2);
+}
+
+.mode-button.active {
+    background: rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5),
+                inset 0 0 15px rgba(76, 175, 80, 0.3);
+}
+
+.watermark {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    font-size: 12px;
+    z-index: 1000;
+    transition: color 0.3s;
+}
+
+.watermark:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.emote, #settings, .control-button {
+    animation: fadeIn 0.3s ease-in-out;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>7TV Emote Party - Ratespiel</title>
+    <link rel="stylesheet" href="guess.css">
+</head>
+<body>
+    <canvas id="background-canvas"></canvas>
+    <div id="loading">Lade Emotes...</div>
+
+    <!-- Emote-Set Auswahl -->
+    <div id="setSelector" class="set-selector">
+        <h2 class="menu-title">Wähle ein Emote-Set</h2>
+        <div class="set-input">
+            <input type="text" id="emoteSetId" value="global" 
+                placeholder="Emote-Set ID oder 'global' für globale Emotes">
+            <button id="loadSet" class="menu-button">
+                <span class="icon">✅</span>
+                <span class="text">Set laden</span>
+            </button>
+        </div>
+        <div class="set-info">
+            <p>Beispiele:</p>
+            <ul>
+                <li><span class="icon">🌍</span> global - Globale Emotes</li>
+                <li><span class="icon">📦</span> 01JBD3PM7EVSYPSC3DK5ZKR3G8 - Custom Set</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Spiel Panel -->
+    <div id="gamePanel" class="game-panel" style="display: none;">
+        <div class="game-container">
+            <div id="gameScore">Punkte: 0</div>
+            <div id="emoteGuess">
+                <img id="emoteToGuess" src="" alt="Emote zu erraten">
+                <input type="text" id="guessInput" placeholder="Name des Emotes...">
+                <div class="button-group">
+                    <button id="submitGuess" class="menu-button">
+                        <span class="icon">✨</span>
+                        <span class="text">Raten</span>
+                    </button>
+                    <button id="revealAnswer" class="menu-button reveal-button">
+                        <span class="icon">👀</span>
+                        <span class="text">Auflösen (-50 Punkte)</span>
+                    </button>
+                </div>
+            </div>
+            <div id="gameInfo">
+                <span class="icon">⏱️</span>
+                Zeit: <span id="timeLeft">30</span>s | 
+                <span class="icon">📦</span>
+                Set: <span id="currentSet">Global</span>
+            </div>
+        </div>
+    </div>
+
+    <button id="backToMenu" class="menu-button back-button">
+        <span class="icon">🏠</span>
+        <span class="text">Zurück zum Menü</span>
+    </button>
+
+    <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
+    <script src="guess.js"></script>
+</body>
+</html>

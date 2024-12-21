@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>7TV Emote Memory</title>
+    <link rel="stylesheet" href="memory.css">
+</head>
+<body>
+    <canvas id="background-canvas"></canvas>
+    <div id="loading">Lade Emotes...</div>
+
+    <div id="gameContainer">
+        <div id="gameInfo">
+            <span>Züge: <span id="moves">0</span></span>
+            <span>Paare: <span id="pairs">0</span>/8</span>
+        </div>
+        <div id="memoryGrid"></div>
+    </div>
+
+    <button id="backToMenu" class="menu-button">
+        <span class="icon">🏠</span>
+        <span class="text">Zurück zum Menü</span>
+    </button>
+
+    <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
+    <script src="memory.js"></script>
+</body>
+</html> 

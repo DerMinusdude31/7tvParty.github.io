@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>7TV Emote Catcher</title>
+    <link rel="stylesheet" href="catch.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="loading">Lade Emotes...</div>
+
+    <div id="gameInfo">
+        <span>Score: <span id="score">0</span></span>
+        <span>Highscore: <span id="highscore">0</span></span>
+        <span>Leben: <span id="lives">3</span></span>
+        <span>Level: <span id="level">1</span></span>
+    </div>
+
+    <button id="toggleSettings" class="control-button">⚙️ Einstellungen</button>
+    <button id="backToMenu" class="menu-button">
+        <span class="icon">🏠</span>
+        <span class="text">Zurück zum Menü</span>
+    </button>
+
+    <div id="settings" style="display: none;">
+        <h2>Einstellungen</h2>
+        <div class="setting-group">
+            <label for="difficulty">Schwierigkeit:</label>
+            <select id="difficulty">
+                <option value="easy">Einfach</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Schwer</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label for="platformSize">Plattform-Größe:</label>
+            <input type="range" id="platformSize" min="50" max="200" value="100">
+        </div>
+        <div class="setting-group">
+            <label for="platformSpeed">Geschwindigkeit:</label>
+            <input type="range" id="platformSpeed" min="5" max="20" value="10">
+        </div>
+        <div class="setting-group">
+            <label for="emoteSetId">Emote-Set ID:</label>
+            <input type="text" id="emoteSetId" value="global">
+        </div>
+        <button id="applySettings">Anwenden</button>
+    </div>
+
+    <div id="gameControls">
+        Bewege dich mit ← → oder A D
+    </div>
+
+    <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
+    <script src="catch.js"></script>
+</body>
+</html> 
