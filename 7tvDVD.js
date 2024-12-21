@@ -1,3 +1,0 @@
-- // Canvas Setup
-- const canvas = document.getElementById('background-canvas');
-- ... 

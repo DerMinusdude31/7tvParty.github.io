@@ -188,7 +188,7 @@ function startTransition() {
     const button = document.getElementById('toggleBackground');
     isTransitioning = true;
     transitionProgress = 0;
-    isReversing = isEmoteMode; // Setze Richtung basierend auf aktuellem Modus
+    isReversing = isEmoteMode;
     isEmoteMode = !isEmoteMode;
     
     button.disabled = false;
@@ -196,85 +196,79 @@ function startTransition() {
     button.querySelector('.icon').textContent = isEmoteMode ? '🎭' : '🌟';
 }
 
-// Modal Funktionalität
-document.getElementById('aboutCreator').addEventListener('click', () => {
-    document.getElementById('creatorModal').style.display = 'flex';
-});
+// Event Listeners für Navigation und Modals
+document.addEventListener('DOMContentLoaded', () => {
+    // Navigation
+    document.getElementById('classicMode').addEventListener('click', () => {
+        window.location.href = 'classic.html';
+    });
 
-document.getElementById('closeModal').addEventListener('click', () => {
-    document.getElementById('creatorModal').style.display = 'none';
-});
+    document.getElementById('guessMode').addEventListener('click', () => {
+        window.location.href = 'guess.html';
+    });
 
-// Schließen mit Escape oder Klick außerhalb
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+    document.getElementById('memoryMode').addEventListener('click', () => {
+        window.location.href = 'memory.html';
+    });
+
+    document.getElementById('catchMode').addEventListener('click', () => {
+        window.location.href = 'catch.html';
+    });
+
+    document.getElementById('helpSettings').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+    });
+
+    // Creator Modal
+    document.getElementById('aboutCreator').addEventListener('click', () => {
+        document.getElementById('creatorModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeModal').addEventListener('click', () => {
         document.getElementById('creatorModal').style.display = 'none';
-    }
-});
+    });
 
-document.getElementById('creatorModal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('creatorModal')) {
-        document.getElementById('creatorModal').style.display = 'none';
-    }
-});
+    // AI Info Modal
+    document.getElementById('aiInfoButton').addEventListener('click', () => {
+        document.getElementById('aiInfoModal').style.display = 'flex';
+        document.querySelector('.background-controls').style.display = 'none';
+    });
 
-// Modus-Auswahl
-document.getElementById('classicMode').addEventListener('click', () => {
-    window.location.href = 'classic.html';
-});
-
-document.getElementById('guessMode').addEventListener('click', () => {
-    window.location.href = 'guess.html';
-});
-
-document.getElementById('memoryMode').addEventListener('click', () => {
-    window.location.href = 'memory.html';
-});
-
-document.getElementById('catchMode').addEventListener('click', () => {
-    window.location.href = 'catch.html';
-});
-
-document.getElementById('helpSettings').addEventListener('click', () => {
-    window.location.href = 'settings.html';
-});
-
-// Füge diese Event Listener hinzu
-document.getElementById('aiInfoButton').addEventListener('click', () => {
-    document.getElementById('aiInfoModal').style.display = 'flex';
-    document.querySelector('.background-controls').style.display = 'none'; // Verstecke den Button
-});
-
-document.getElementById('closeAiInfo').addEventListener('click', () => {
-    document.getElementById('aiInfoModal').style.display = 'none';
-    document.querySelector('.background-controls').style.display = 'block'; // Zeige den Button wieder
-});
-
-// Optional: Schließen mit Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+    document.getElementById('closeAiInfo').addEventListener('click', () => {
         document.getElementById('aiInfoModal').style.display = 'none';
+        document.querySelector('.background-controls').style.display = 'block';
+    });
+
+    // AI Warning Modal
+    document.getElementById('aiWarningButton').addEventListener('click', () => {
+        document.getElementById('aiWarningModal').style.display = 'flex';
+        document.querySelector('.background-controls').style.display = 'none';
+    });
+
+    document.getElementById('closeAiWarning').addEventListener('click', () => {
         document.getElementById('aiWarningModal').style.display = 'none';
-        document.querySelector('.background-controls').style.display = 'block'; // Zeige den Button wieder
-    }
-});
+        document.querySelector('.background-controls').style.display = 'block';
+    });
 
-// Füge diese Event Listener hinzu
-document.getElementById('aiWarningButton').addEventListener('click', () => {
-    document.getElementById('aiWarningModal').style.display = 'flex';
-    document.querySelector('.background-controls').style.display = 'none'; // Verstecke den Button
-});
+    // Global Modal Handling
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('creatorModal').style.display = 'none';
+            document.getElementById('aiInfoModal').style.display = 'none';
+            document.getElementById('aiWarningModal').style.display = 'none';
+            document.querySelector('.background-controls').style.display = 'block';
+        }
+    });
 
-document.getElementById('closeAiWarning').addEventListener('click', () => {
-    document.getElementById('aiWarningModal').style.display = 'none';
-    document.querySelector('.background-controls').style.display = 'block'; // Zeige den Button wieder
-});
-
-// Optional: Schließen mit Escape (erweitere den existierenden Listener)
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.getElementById('aiWarningModal').style.display = 'none';
-    }
+    // Click outside to close modals
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.querySelector('.background-controls').style.display = 'block';
+            }
+        });
+    });
 });
 
 // Start Animation
