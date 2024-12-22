@@ -29,10 +29,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 50px;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 #gameInfo {
+    position: relative;
     background: var(--panel-background);
     padding: 15px 30px;
     border-radius: var(--border-radius);
@@ -44,6 +48,7 @@ body {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
                 inset 0 0 15px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    z-index: 2;
 }
 
 #memoryGrid {
@@ -53,14 +58,19 @@ body {
     padding: 20px;
     background: var(--panel-background);
     border-radius: var(--border-radius);
-    margin: 0 auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
                 inset 0 0 15px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    margin: 0 auto;
+    overflow: auto;
+    max-height: calc(100vh - 200px);
+    justify-content: center;
 }
 
 .memory-card {
+    width: 150px;
+    height: 150px;
     aspect-ratio: 1;
     background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
@@ -69,8 +79,6 @@ body {
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
-    width: 150px;
-    height: 150px;
 }
 
 .memory-card:hover {
@@ -109,42 +117,145 @@ body {
 }
 
 .menu-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
     background: rgba(145, 70, 255, 0.1);
     border: 2px solid var(--primary-color);
-    color: var(--text-color);
-    padding: 10px 20px;
     border-radius: var(--border-radius);
+    color: var(--text-color);
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    transition: all 0.3s ease;
-    z-index: 1000;
+    transition: all 0.3s;
     backdrop-filter: blur(5px);
+    font-size: 1.2em;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+    padding: 15px 25px;
+    position: relative;
 }
 
-.menu-button:hover {
-    background: rgba(145, 70, 255, 0.2);
+.menu-button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--primary-color), 
+        transparent, 
+        transparent, 
+        var(--primary-color)
+    );
+    border-radius: calc(var(--border-radius) + 2px);
+    z-index: -1;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+
+.menu-button:hover::after {
+    opacity: 0.5;
+}
+
+.menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.menu-button:hover::before {
+    left: 100%;
+}
+
+#backToMenu {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+#backToMenu:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
-                inset 0 0 10px rgba(145, 70, 255, 0.2);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.5);
+}
+
+.set-input .menu-button {
+    min-width: 120px;
+    padding: 15px 30px;
+    background: rgba(145, 70, 255, 0.15);
+}
+
+.set-input .menu-button:hover {
+    transform: translateX(10px);
+    background: rgba(145, 70, 255, 0.25);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.5);
+}
+
+.menu-button .icon {
+    font-size: 1.4em;
+    opacity: 0.9;
+    transition: transform 0.3s;
+}
+
+.menu-button:hover .icon {
+    transform: scale(1.1);
+}
+
+.menu-button .text {
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
 #loading {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--panel-background);
-    padding: 20px;
+    transform: translate(-50%, -300%);
+    background: rgba(0, 0, 0, 0.85);
+    padding: 2rem;
     border-radius: var(--border-radius);
-    z-index: 2000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
     backdrop-filter: blur(10px);
+    width: 500px;
+    text-align: center;
+    font-size: 2em;
+    color: var(--text-color);
+    animation: fadeIn 0.3s ease;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+#loading::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-color), 
+        transparent
+    );
+    margin: 1rem auto;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 0.3; }
 }
 
 .watermark {
@@ -160,4 +271,586 @@ body {
 
 .watermark:hover {
     color: rgba(255, 255, 255, 0.8);
+}
+
+.set-selector {
+    background: var(--panel-background);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    max-width: 400px;
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.set-input {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.set-input input {
+    flex: 1;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1.2em;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s;
+}
+
+.set-input input:focus {
+    outline: none;
+    background: rgba(145, 70, 255, 0.1);
+    box-shadow: 0 0 40px rgba(145, 70, 255, 0.4);
+}
+
+.set-input .menu-button {
+    background: rgba(145, 70, 255, 0.1);
+    padding: 15px 30px;
+    border: 2px solid var(--primary-color);
+    min-width: 120px;
+    font-size: 1.2em;
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.set-input .menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.set-input .menu-button:hover::before {
+    left: 100%;
+}
+
+.set-input .menu-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateX(10px);
+    box-shadow: 0 0 40px rgba(145, 70, 255, 0.4);
+}
+
+.set-input .menu-button .icon {
+    font-size: 1.4em;
+    opacity: 0.9;
+    transition: transform 0.3s;
+}
+
+.set-input .menu-button:hover .icon {
+    transform: scale(1.1);
+}
+
+.set-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+}
+
+.set-info p {
+    margin: 0.5rem 0;
+}
+
+#gameInfo {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: var(--border-radius);
+    position: relative;
+    z-index: 1;
+}
+
+#memoryGrid {
+    display: grid;
+    gap: 15px;
+    padding: 20px;
+    background: var(--panel-background);
+    border-radius: var(--border-radius);
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+}
+
+.initial-menu {
+    background: var(--panel-background);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 90%;
+}
+
+.initial-menu::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--primary-color), 
+        transparent, 
+        transparent, 
+        var(--primary-color)
+    );
+    border-radius: calc(var(--border-radius) + 2px);
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.initial-menu h2 {
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    position: relative;
+}
+
+.initial-menu h2::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-color), 
+        transparent
+    );
+    margin: 0.5rem auto;
+}
+
+.initial-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.initial-menu .menu-button {
+    width: 100%;
+    padding: 15px 20px;
+    position: relative;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.initial-menu .menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.initial-menu .menu-button:hover::before {
+    left: 100%;
+}
+
+.initial-menu .menu-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateX(10px);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3),
+                inset 0 0 10px rgba(145, 70, 255, 0.2);
+}
+
+.initial-menu .button-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+}
+
+.initial-menu .button-content .icon {
+    font-size: 1.3em;
+    opacity: 0.9;
+}
+
+.initial-menu .hover-info {
+    position: absolute;
+    right: 20px;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+}
+
+.initial-menu .menu-button:hover .hover-info {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Animation für das Menü */
+@keyframes menuFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.initial-menu {
+    animation: menuFadeIn 0.5s ease-out;
+}
+
+.initial-menu .menu-button {
+    animation: menuFadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.initial-menu .menu-button:nth-child(1) { animation-delay: 0.1s; }
+.initial-menu .menu-button:nth-child(2) { animation-delay: 0.2s; }
+
+.pre-game-menu {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    z-index: 1000;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+}
+
+.pre-game-menu h2 {
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.pre-game-menu h2::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-color), 
+        transparent
+    );
+    margin: 1rem auto;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.pre-game-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.pre-game-menu .menu-button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.2em;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pre-game-menu .menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.pre-game-menu .menu-button:hover::before {
+    left: 100%;
+}
+
+.pre-game-menu .menu-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 10px rgba(145, 70, 255, 0.2);
+}
+
+.pre-game-menu .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.pre-game-menu .button-content .icon {
+    font-size: 1.4em;
+}
+
+.pre-game-menu .hover-info {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.pre-game-menu .menu-button:hover .hover-info {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 } 
+
+/* Verschwommener Hintergrund für das Spiel während der Menüanzeige */
+#memoryGrid {
+    filter: blur(8px);
+    transition: filter 0.3s ease;
+}
+
+#gameInfo {
+    filter: blur(8px);
+    transition: filter 0.3s ease;
+}
+
+/* Wenn das Spiel aktiv ist */
+.game-active #memoryGrid,
+.game-active #gameInfo {
+    filter: blur(0);
+} 
+
+.set-input {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.set-input input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1em;
+    text-align: center;
+}
+
+.set-input .menu-button {
+    padding: 10px 20px;
+    white-space: nowrap;
+    min-width: 100px;
+    background: rgba(145, 70, 255, 0.1);
+    border: none;
+}
+
+.set-input .menu-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.set-info {
+    margin-top: 1rem;
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+.set-input input.error {
+    border-color: #ff4444;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.settings-group {
+    margin-bottom: 20px;
+    text-align: left;
+    padding: 0 20px;
+}
+
+.settings-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-size: 1.1em;
+}
+
+.size-select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.size-select:hover {
+    background: rgba(145, 70, 255, 0.2);
+}
+
+.size-select:focus {
+    outline: none;
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+/* Füge Scrollbar-Styling hinzu für große Grids */
+#memoryGrid::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#memoryGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#memoryGrid::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+/* Responsive Anpassungen für kleinere Bildschirme */
+@media (max-width: 1200px) {
+    .memory-card {
+        width: 120px;
+        height: 120px;
+    }
+    
+    #memoryGrid {
+        gap: 10px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .memory-card {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #memoryGrid {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    #gameInfo {
+        font-size: 1em;
+        padding: 10px 20px;
+        gap: 15px;
+    }
+}
+
+/* Verbessere die Scrollbar */
+#memoryGrid::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#memoryGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    margin: 5px;
+}
+
+#memoryGrid::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+#memoryGrid::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color);
+}
+
+.settings-note {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #FFA500;
+    padding: 8px;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+}

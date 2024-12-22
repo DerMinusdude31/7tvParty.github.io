@@ -10,11 +10,40 @@
     <div id="loading">Lade Emotes...</div>
 
     <div id="gameContainer">
-        <div id="gameInfo">
-            <span>Züge: <span id="moves">0</span></span>
-            <span>Paare: <span id="pairs">0</span>/8</span>
+        <div id="gameBackground">
+            <div id="gameInfo">
+                <span>Züge: <span id="moves">0</span></span>
+                <span>Paare: <span id="pairs">0/8</span></span>
+                <span>Set-Highscore: <span id="highscore">-</span></span>
+            </div>
+            <div id="memoryGrid"></div>
         </div>
-        <div id="memoryGrid"></div>
+
+        <div id="preGameMenu" class="pre-game-menu">
+            <h2>Memory-Spiel</h2>
+            
+            <div class="settings-group">
+                <label for="gridSize">Spielfeldgröße:</label>
+                <select id="gridSize" class="size-select">
+                    <option value="8">4x4 (8 Paare)</option>
+                    <option value="12">4x6 (12 Paare)</option>
+                    <option value="18">6x6 (18 Paare)</option>
+                    <option value="24">6x8 (24 Paare)</option>
+                </select>
+                <div class="settings-note">
+                    ⚠️ Hinweis: Die Größeneinstellung wird noch optimiert und zeigt aktuell nicht die korrekte Anzahl an Karten an.
+                </div>
+            </div>
+
+            <div class="set-input">
+                <input type="text" id="emoteSetId" value="global" 
+                    placeholder="Set ID (leer = globale Emotes)">
+                <button id="startGame" class="menu-button">
+                    <span class="icon">🎮</span>
+                    <span class="text">Start</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <button id="backToMenu" class="menu-button">
@@ -23,6 +52,6 @@
     </button>
 
     <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
-    <script src="memory.js"></script>
+    <script src="memory.min.js"></script>
 </body>
 </html> 

@@ -742,3 +742,50 @@ body {
     content: '›';
     color: #4CAF50;
 }
+
+/* Füge diese Styles für die Patch Notes hinzu oder aktualisiere sie */
+#patchNotesModal .modal-content {
+    max-height: 80vh;  /* Maximale Höhe relativ zum Viewport */
+    display: flex;
+    flex-direction: column;
+}
+
+#patchNotesModal .patch-notes {
+    overflow-y: auto;  /* Vertikaler Scroll */
+    max-height: calc(80vh - 150px);  /* Höhe abzüglich Titel und Button */
+    padding-right: 15px;  /* Platz für Scrollbar */
+    margin-right: -15px;  /* Kompensiere das Padding */
+}
+
+/* Scrollbar Styling */
+#patchNotesModal .patch-notes::-webkit-scrollbar {
+    width: 8px;
+}
+
+#patchNotesModal .patch-notes::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#patchNotesModal .patch-notes::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+#patchNotesModal .patch-notes::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color);
+}
+
+/* Verbessere den Abstand zwischen den Versionen */
+.patch-version {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.patch-version:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}

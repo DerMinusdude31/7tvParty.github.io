@@ -8,7 +8,7 @@ let currentEmoteToGuess = null;
 let currentSetId = 'global';
 let currentSetName = 'Global';
 
-// Canvas Setup
+// Canvas Setup für Sterne-Animation
 const canvas = document.getElementById('background-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -20,13 +20,38 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// Hintergrund-Animation
-function drawBackground() {
-    ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
+// Sterne für den Hintergrund
+let stars = Array(120).fill().map(() => ({
+    x: Math.random() * canvas.width,
+    y: -10 - (Math.random() * canvas.height),
+    speed: Math.random() * 2 + 0.5,
+    size: Math.random() * 1.5 + 0.5
+}));
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgb(0, 0, 0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    requestAnimationFrame(drawBackground);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+            star.y = -10;
+            star.x = Math.random() * canvas.width;
+            star.speed = Math.random() * 2 + 0.5;
+        }
+    });
+    
+    requestAnimationFrame(animate);
 }
+
+// Start Animation
+animate();
 
 // Emote-Funktionen
 async function fetchEmotes() {
@@ -41,40 +66,26 @@ async function fetchEmotes() {
         const response = await fetch(url);
         const data = await response.json();
         
+        if (!data.emotes || data.emotes.length === 0) {
+            throw new Error('Keine Emotes gefunden');
+        }
+        
         emotes = data.emotes.map(emote => ({
             name: emote.name,
             url: `https://cdn.7tv.app/emote/${emote.id}/4x.webp`
         }));
         
-        if (emotes.length === 0) {
-            throw new Error('Keine Emotes gefunden');
-        }
-        
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('setSelector').style.display = 'none';
+        document.querySelector('.set-selector').style.display = 'none';
         document.getElementById('currentSet').textContent = currentSetName;
         startGame();
     } catch (error) {
         console.error('Fehler beim Laden der Emotes:', error);
-        document.getElementById('loading').textContent = 
-            'Fehler beim Laden der Emotes. Bitte überprüfen Sie die Set-ID und versuchen Sie es erneut.';
-        
-        document.getElementById('setSelector').style.display = 'block';
-    }
-}
-
-function loadEmoteSet() {
-    const setInput = document.getElementById('emoteSetId');
-    const newSetId = setInput.value.trim();
-    
-    if (newSetId) {
-        currentSetId = newSetId;
-        currentSetName = newSetId === 'global' ? 'Global' : `Set: ${newSetId}`;
-        
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('loading').textContent = 'Lade Emotes...';
-        
-        fetchEmotes();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('emoteSetId').classList.add('error');
+        setTimeout(() => {
+            document.getElementById('emoteSetId').classList.remove('error');
+        }, 1000);
     }
 }
 
@@ -205,10 +216,20 @@ function revealAnswer() {
 }
 
 // Event Listeners
-document.getElementById('loadSet').addEventListener('click', loadEmoteSet);
+document.getElementById('startGame').addEventListener('click', () => {
+    const setId = document.getElementById('emoteSetId').value.trim();
+    currentSetId = setId || 'global';
+    currentSetName = currentSetId === 'global' ? 'Global' : `Set: ${currentSetId}`;
+    
+    document.getElementById('loading').style.display = 'block';
+    
+    fetchEmotes();
+});
 
 document.getElementById('emoteSetId').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') loadEmoteSet();
+    if (e.key === 'Enter') {
+        document.getElementById('startGame').click();
+    }
 });
 
 document.getElementById('submitGuess').addEventListener('click', checkGuess);
@@ -224,6 +245,3 @@ document.getElementById('backToMenu').addEventListener('click', () => {
         window.location.href = 'index.html';
     }
 });
-
-// Start Animation
-drawBackground();

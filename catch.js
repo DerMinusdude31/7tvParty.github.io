@@ -2,6 +2,55 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Hintergrund-Canvas
+const bgCanvas = document.createElement('canvas');
+const bgCtx = bgCanvas.getContext('2d');
+document.body.insertBefore(bgCanvas, document.body.firstChild);
+bgCanvas.id = 'background-canvas';
+
+// Hintergrund-Canvas Größe anpassen
+function resizeBgCanvas() {
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+}
+
+window.addEventListener('resize', resizeBgCanvas);
+resizeBgCanvas();
+
+// Sterne für den Hintergrund
+let stars = Array(120).fill().map(() => ({
+    x: Math.random() * bgCanvas.width,
+    y: -10 - (Math.random() * bgCanvas.height),
+    speed: Math.random() * 2 + 0.5,
+    size: Math.random() * 1.5 + 0.5
+}));
+
+// Hintergrund-Animation
+function animateBackground() {
+    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    bgCtx.fillStyle = 'rgb(0, 0, 0)';
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+    
+    bgCtx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    stars.forEach(star => {
+        bgCtx.beginPath();
+        bgCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        bgCtx.fill();
+        
+        star.y += star.speed;
+        if (star.y > bgCanvas.height) {
+            star.y = -10;
+            star.x = Math.random() * bgCanvas.width;
+            star.speed = Math.random() * 2 + 0.5;
+        }
+    });
+    
+    requestAnimationFrame(animateBackground);
+}
+
+// Starte die Hintergrund-Animation
+animateBackground();
+
 let emotes = [];
 let player = null;
 let fallingEmotes = [];
@@ -18,25 +67,19 @@ let gameSettings = {
     emoteSetId: 'global',
     spawnRate: 0.02,
     emoteSpeed: 1.5,
-    level: 1
+    level: 1,
+    maxLevel: 20,
+    speedIncreasePerLevel: 0.1,
+    spawnRateIncreasePerLevel: 0.001,
+    powerupChance: 0.005,
+    scoreMultiplier: 1
 };
 
 let powerups = [];
 
-function resizeCanvas() {
-    // Begrenztes Spielfeld
-    canvas.width = Math.min(800, window.innerWidth);
-    canvas.height = Math.min(600, window.innerHeight);
-    
-    // Zentriere das Canvas
-    canvas.style.position = 'absolute';
-    canvas.style.left = '50%';
-    canvas.style.top = '50%';
-    canvas.style.transform = 'translate(-50%, -50%)';
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+// Füge diese Variable am Anfang hinzu
+let lastScore = 0;
+let currentLevel = 1;
 
 // Player
 class Player {
@@ -94,7 +137,9 @@ class FallingEmote {
         if (this.y + this.size > player.y && 
             this.x + this.size > player.x && 
             this.x < player.x + player.width) {
-            score++;
+            // Berücksichtige den Score-Multiplikator
+            const points = gameSettings.scoreMultiplier;
+            score += points;
             document.getElementById('score').textContent = score;
             if (score > highscore) {
                 highscore = score;
@@ -120,15 +165,31 @@ class FallingEmote {
     }
 }
 
-// Powerup
+// Vereinfachte Powerup-Klasse
 class Powerup {
     constructor() {
         this.size = 30;
         this.x = Math.random() * (canvas.width - this.size);
         this.y = -this.size;
         this.speed = 2;
-        this.type = Math.random() < 0.5 ? 'size' : 'speed';
-        this.color = this.type === 'size' ? '#4CAF50' : '#2196F3';
+        this.type = this.getRandomType();
+        this.color = this.getColorForType();
+        this.active = false;
+    }
+
+    getRandomType() {
+        // Neue, simplere Powerups
+        const types = ['extraLife', 'slowdown', 'doublePoints'];
+        return types[Math.floor(Math.random() * types.length)];
+    }
+
+    getColorForType() {
+        const colors = {
+            extraLife: '#ff4444',    // Rot für Extra Leben
+            slowdown: '#4444ff',     // Blau für Verlangsamung
+            doublePoints: '#44ff44'  // Grün für Doppelte Punkte
+        };
+        return colors[this.type];
     }
 
     draw() {
@@ -136,11 +197,6 @@ class Powerup {
         ctx.beginPath();
         ctx.arc(this.x + this.size/2, this.y + this.size/2, this.size/2, 0, Math.PI * 2);
         ctx.fill();
-        
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 15;
-        ctx.fill();
-        ctx.shadowBlur = 0;
     }
 
     move() {
@@ -157,18 +213,61 @@ class Powerup {
     }
 
     applyPowerup() {
-        if (this.type === 'size') {
-            player.width = gameSettings.platformSize * 1.5;
-            setTimeout(() => {
-                player.width = gameSettings.platformSize;
-            }, 5000);
-        } else {
-            player.speed = gameSettings.platformSpeed * 1.5;
-            setTimeout(() => {
-                player.speed = gameSettings.platformSpeed;
-            }, 5000);
+        switch(this.type) {
+            case 'extraLife':
+                lives++;
+                document.getElementById('lives').textContent = lives;
+                showPowerupNotification('❤️ Extra Leben!');
+                break;
+
+            case 'slowdown':
+                // Verlangsame NEUE fallende Emotes für 10 Sekunden
+                const originalSpeed = gameSettings.emoteSpeed;
+                gameSettings.emoteSpeed *= 0.5;
+                showPowerupNotification('🐌 Verlangsamung Aktiv!');
+                
+                setTimeout(() => {
+                    gameSettings.emoteSpeed = originalSpeed;
+                    showPowerupNotification('🏃 Normale Geschwindigkeit!');
+                }, 10000);
+                break;
+
+            case 'doublePoints':
+                // Doppelte Punkte für 10 Sekunden
+                gameSettings.scoreMultiplier *= 2;
+                showPowerupNotification('✨ Doppelte Punkte Aktiv!');
+                
+                setTimeout(() => {
+                    gameSettings.scoreMultiplier /= 2;
+                    showPowerupNotification('💫 Normale Punkte!');
+                }, 10000);
+                break;
         }
     }
+}
+
+// Funktion für Powerup-Benachrichtigungen
+function showPowerupNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'powerup-notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Animation für das Erscheinen
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 10);
+
+    // Entferne nach 2 Sekunden mit Animation
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(-20px)';
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
 }
 
 // Game Controls
@@ -177,26 +276,28 @@ document.addEventListener('keydown', e => keys[e.key] = true);
 document.addEventListener('keyup', e => keys[e.key] = false);
 
 function gameUpdate() {
-    // Wenn das Spiel läuft oder noch Emotes fallen
     if (gameStarted || fallingEmotes.length > 0) {
+        // Clear canvas und zeichne den Hintergrund
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = 'rgb(0, 0, 0)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Zeichne den Player
         player.move(keys);
         player.draw();
 
-        // Neue Emotes spawnen nur wenn das Spiel noch läuft
+        // Emotes spawnen und bewegen
         if (gameStarted && Math.random() < gameSettings.spawnRate) {
             fallingEmotes.push(new FallingEmote());
         }
 
+        // Update und zeichne alle fallenden Emotes
         fallingEmotes = fallingEmotes.filter(emote => {
             emote.draw();
             return !emote.move();
         });
 
-        // Powerups spawnen nur wenn das Spiel noch läuft
+        // Powerups spawnen und bewegen
         if (gameStarted && Math.random() < 0.005) {
             powerups.push(new Powerup());
         }
@@ -206,17 +307,14 @@ function gameUpdate() {
             return !powerup.move();
         });
 
-        // Level-System
-        if (score > 0 && score % 10 === 0) {
-            gameSettings.level = Math.floor(score / 10) + 1;
-            gameSettings.spawnRate = Math.min(0.025, 0.01 + (gameSettings.level - 1) * 0.002);
-            gameSettings.emoteSpeed = Math.min(2.5, 1.2 + (gameSettings.level - 1) * 0.1);
-            document.getElementById('level').textContent = gameSettings.level;
+        // Level-System - Nur prüfen wenn sich der Score geändert hat
+        if (score !== lastScore) {
+            checkLevelUp();
+            lastScore = score;
         }
 
         gameLoop = requestAnimationFrame(gameUpdate);
     } else {
-        // Wenn keine Emotes mehr fallen und das Spiel gestoppt ist, zeige Game Over
         if (!document.querySelector('.game-over-box')) {
             showGameOver();
         }
@@ -274,19 +372,22 @@ function showGameOver() {
 
 function startGame() {
     if (!gameStarted) {
-        // Lösche den alten Game Over Screen
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         gameStarted = true;
         score = 0;
+        lastScore = 0;
+        currentLevel = 1;
         lives = 5;
         gameSettings.level = 1;
         gameSettings.spawnRate = 0.01;
         gameSettings.emoteSpeed = 1.2;
+        
         document.getElementById('score').textContent = score;
         document.getElementById('lives').textContent = lives;
         document.getElementById('highscore').textContent = highscore;
         document.getElementById('level').textContent = gameSettings.level;
+        
         fallingEmotes = [];
         powerups = [];
         player = new Player();
@@ -314,11 +415,14 @@ async function loadEmotes() {
 }
 
 function initGame() {
+    resizeCanvas();
     player = new Player();
     
-    // Start Screen
-    ctx.fillStyle = 'black';
+    // Start Screen mit halbtransparentem Hintergrund
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     ctx.fillStyle = 'white';
     ctx.font = '48px Arial';
     ctx.textAlign = 'center';
@@ -495,4 +599,98 @@ function checkLives() {
         return false;
     }
     return true;
-} 
+}
+
+function checkCollision(emote, player) {
+    return emote.y + emote.size > player.y && 
+           emote.x + emote.size > player.x && 
+           emote.x < player.x + player.width &&
+           emote.y < player.y + player.height;
+}
+
+function addScore() {
+    const basePoints = 100;
+    const levelMultiplier = gameSettings.scoreMultiplier;
+    const speedBonus = Math.floor(gameSettings.emoteSpeed * 10);
+    
+    const points = Math.floor(basePoints * levelMultiplier) + speedBonus;
+    score += points;
+    
+    // Visuelles Feedback
+    showScoreAnimation(points);
+    document.getElementById('score').textContent = score;
+    
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('catchHighscore', highscore);
+        document.getElementById('highscore').textContent = highscore;
+        showNewHighscoreAnimation();
+    }
+}
+
+function showLevelUpAnimation() {
+    const levelDisplay = document.getElementById('level');
+    levelDisplay.classList.add('level-up');
+    setTimeout(() => levelDisplay.classList.remove('level-up'), 1000);
+}
+
+function showPowerupAnimation(type) {
+    const powerupDisplay = document.createElement('div');
+    powerupDisplay.className = 'powerup-notification';
+    powerupDisplay.textContent = `${getPowerupEmoji(type)} Powerup!`;
+    document.body.appendChild(powerupDisplay);
+    setTimeout(() => powerupDisplay.remove(), 2000);
+}
+
+function showScoreAnimation(points) {
+    const scorePopup = document.createElement('div');
+    scorePopup.className = 'score-popup';
+    scorePopup.textContent = `+${points}`;
+    document.body.appendChild(scorePopup);
+    setTimeout(() => scorePopup.remove(), 1000);
+}
+
+function getPowerupEmoji(type) {
+    const emojis = {
+        size: '🔄',
+        speed: '🚀',
+        shield: '🛡️',
+        multiplier: '✖️'
+    };
+    return emojis[type] || '❓';
+}
+
+function showNewHighscoreAnimation() {
+    const highscoreDisplay = document.getElementById('highscore');
+    highscoreDisplay.classList.add('new-highscore');
+    setTimeout(() => highscoreDisplay.classList.remove('new-highscore'), 1000);
+}
+
+// Füge diese Funktion wieder hinzu
+function resizeCanvas() {
+    // Begrenztes Spielfeld
+    canvas.width = Math.min(800, window.innerWidth);
+    canvas.height = Math.min(600, window.innerHeight);
+    
+    // Zentriere das Canvas
+    canvas.style.position = 'absolute';
+    canvas.style.left = '50%';
+    canvas.style.top = '50%';
+    canvas.style.transform = 'translate(-50%, -50%)';
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Neue Funktion für Level-Up Prüfung
+function checkLevelUp() {
+    const newLevel = Math.floor(score / 10) + 1;
+    if (newLevel > currentLevel) {
+        currentLevel = newLevel;
+        gameSettings.level = currentLevel;
+        gameSettings.spawnRate = Math.min(0.025, 0.01 + (currentLevel - 1) * 0.002);
+        gameSettings.emoteSpeed = Math.min(2.5, 1.2 + (currentLevel - 1) * 0.1);
+        document.getElementById('level').textContent = currentLevel;
+    }
+}
+  

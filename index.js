@@ -7,7 +7,7 @@ let emotes = [];
 let particles = [];
 let isTransitioning = false;
 let transitionProgress = 0;
-const TRANSITION_SPEED = 0.015;
+const TRANSITION_SPEED = 0.008;
 
 // Neue Variable für die Richtung der Transition
 let isReversing = false;
@@ -102,8 +102,10 @@ function drawEmotes() {
     });
 }
 
-function easeInOutCubic(t) {
-    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+function easeInOutQuart(t) {
+    return t < 0.5
+        ? 8 * t * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 4) / 2;
 }
 
 function animate() {
@@ -112,13 +114,12 @@ function animate() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     if (isTransitioning) {
-        const progress = easeInOutCubic(transitionProgress);
+        const progress = easeInOutQuart(transitionProgress);
         
-        // Slide-Animation
         const slideOffset = canvas.width * (1 - progress);
         
-        // Zeichne den aktuellen Zustand
         ctx.save();
+        ctx.globalAlpha = progress;
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width - slideOffset, canvas.height);
         ctx.clip();
@@ -129,8 +130,8 @@ function animate() {
         }
         ctx.restore();
         
-        // Zeichne den vorherigen Zustand
         ctx.save();
+        ctx.globalAlpha = 1 - progress;
         ctx.beginPath();
         ctx.rect(canvas.width - slideOffset, 0, slideOffset, canvas.height);
         ctx.clip();
