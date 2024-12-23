@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>7TV Emote Pet</title>
+    <link rel="stylesheet" href="pet.css">
+</head>
+<body>
+    <canvas id="background-canvas"></canvas>
+    
+    <div id="petGame">
+        <!-- Emote-Auswahl zu Beginn -->
+        <div id="emoteSelect" class="modal">
+            <div class="modal-content">
+                <h2>Wähle dein Emote-Haustier</h2>
+                <div id="emoteGrid"></div>
+            </div>
+        </div>
+
+        <!-- Hauptspiel-UI -->
+        <div id="gameUI">
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="icon">❤️</span>
+                    <div class="progress-bar">
+                        <div id="healthBar" class="progress"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <span class="icon">🍕</span>
+                    <div class="progress-bar">
+                        <div id="hungerBar" class="progress"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <span class="icon">😊</span>
+                    <div class="progress-bar">
+                        <div id="happinessBar" class="progress"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <span class="icon">⚡</span>
+                    <div class="progress-bar">
+                        <div id="energyBar" class="progress"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <span class="icon">🚿</span>
+                    <div class="progress-bar">
+                        <div id="hygieneBar" class="progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pet-container">
+                <img id="petEmote" src="" alt="Dein Emote">
+            </div>
+
+            <div class="actions">
+                <button class="action-btn" data-action="feed">
+                    <span class="icon">🍔</span>
+                    <span>Füttern</span>
+                </button>
+                <button class="action-btn" data-action="play">
+                    <span class="icon">🎮</span>
+                    <span>Spielen</span>
+                </button>
+                <button class="action-btn" data-action="sleep">
+                    <span class="icon">😴</span>
+                    <span>Schlafen</span>
+                </button>
+                <button class="action-btn" data-action="clean">
+                    <span class="icon">🚿</span>
+                    <span>Waschen</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="backToMenu" class="menu-button">
+        <span class="icon">🏠</span>
+        <span class="text">Zurück zum Menü</span>
+    </button>
+
+    <!-- Level und Münzen Info -->
+    <div class="level-info">
+        <div class="level">
+            <span class="icon">⭐</span>
+            Level <span id="levelDisplay">1</span>
+        </div>
+        <div class="xp">
+            <div class="xp-bar">
+                <div id="xpProgress" class="xp-progress"></div>
+            </div>
+        </div>
+        <div class="coins">
+            <span class="icon">💰</span>
+            <span id="coinsDisplay">0</span>
+        </div>
+    </div>
+
+    <!-- Obere Buttons -->
+    <div class="sandbox-toggle">
+        <button id="resetCurrentPet" class="sandbox-btn">
+            <span class="icon">🔄</span>
+            Stats zurücksetzen
+        </button>
+        <button id="newPet" class="sandbox-btn">
+            <span class="icon">🆕</span>
+            Neues Pet
+        </button>
+    </div>
+
+    <!-- Sandbox Button separat unten -->
+    <button id="toggleSandbox" class="sandbox-btn">
+        <span class="icon">🛠️</span>
+        Sandbox
+    </button>
+
+    <div id="sandboxMenu" class="sandbox-menu" style="display: none;">
+        <h3>🎮 Sandbox Menü</h3>
+        <div class="sandbox-controls">
+            <div class="sandbox-group">
+                <label>Münzen hinzufügen:</label>
+                <input type="number" id="addCoins" value="100">
+                <button onclick="pet.addCoins()">+</button>
+            </div>
+            <div class="sandbox-group">
+                <label>Level setzen:</label>
+                <input type="number" id="setLevel" value="1">
+                <button onclick="pet.setLevel()">✓</button>
+            </div>
+            <div class="sandbox-group">
+                <label>Stats setzen:</label>
+                <select id="statSelect">
+                    <option value="health">Gesundheit</option>
+                    <option value="hunger">Hunger</option>
+                    <option value="happiness">Glück</option>
+                    <option value="energy">Energie</option>
+                    <option value="hygiene">Hygiene</option>
+                </select>
+                <input type="number" id="statValue" value="100" min="0" max="100">
+                <button onclick="pet.setStat()">✓</button>
+            </div>
+            <div class="sandbox-actions">
+                <button onclick="pet.maxStats()">Alle Stats maximieren</button>
+                <button onclick="pet.toggleSickness()">Krankheit umschalten</button>
+                <button onclick="pet.unlockAllAchievements()">Alle Achievements freischalten</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minispiele -->
+    <div class="minigame-container">
+        <button class="minigame-btn" id="casinoBtn">
+            <span class="icon">🎰</span>
+            Casino
+        </button>
+        <button class="minigame-btn" id="quizBtn">
+            <span class="icon">❓</span>
+            Emote Quiz
+        </button>
+        <button class="minigame-btn" id="memoryBtn">
+            <span class="icon">🎴</span>
+            Memory
+        </button>
+        <button class="minigame-btn" id="runnerBtn">
+            <span class="icon">🏃</span>
+            Runner
+        </button>
+    </div>
+
+    <!-- Medizin-Button (erscheint nur wenn krank) -->
+    <button id="healButton" class="action-btn" onclick="pet.heal()" style="display: none;">
+        <span class="icon">💊</span>
+        <span>Heilen (50 Münzen)</span>
+    </button>
+
+    <script src="pet.js"></script>
+</body>
+</html> 

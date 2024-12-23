@@ -11,7 +11,7 @@
     <div id="startMenu" class="menu-overlay">
         <div class="menu-content">
             <h1 class="menu-title">7TV Emote Party</h1>
-            <div class="version">Version 1.2.0</div>
+            <div class="version">Version 1.3.0</div>
             <div class="menu-buttons">
                 <button id="classicMode" class="menu-button">
                     <div class="button-content">
@@ -45,6 +45,14 @@
                     <span class="hover-info">Fange fallende Emotes und sammle Punkte</span>
                 </button>
 
+                <button id="petMode" class="menu-button" disabled>
+                    <div class="button-content">
+                        <span class="icon">🔒</span>
+                        <span class="text">Emote Pet</span>
+                    </div>
+                    <span class="hover-info">Wird noch entwickelt... 🚧</span>
+                </button>
+
                 <button id="helpSettings" class="menu-button settings-button">
                     <div class="button-content">
                         <span class="icon">❔</span>
@@ -65,27 +73,41 @@
     </div>
 
     <!-- Creator Info Modal -->
-    <div id="creatorModal" class="modal" style="display: none;">
+    <div id="creatorModal" class="modal">
         <div class="modal-content menu-content">
             <h2 class="menu-title">Über den Creator</h2>
             <div class="creator-info">
-                <div class="creator-item">
-                    <img src="https://cdn.7tv.app/emote/01GWSGBQ7R0008X0SB6ANMACKG/2x.webp" alt="muh" style="width: 32px; height: 32px;">
-                    <span class="label">DerMinusdude</span>
-                    <span>muh</span>
+                <div class="creator-profile">
+                    <img src="https://cdn.7tv.app/emote/01H588WGW00001KZFCFR2TS170/4x.webp" alt="Creator Avatar" class="creator-avatar">
+                    <h3>DerMinusdude</h3>
+                    <p class="creator-tagline">Twitch Streamer</p>
                 </div>
-                <div class="creator-item">
-                    <span class="icon">👾</span>
-                    <span class="label">Twitch:</span>
-                    <a href="https://twitch.tv/derminusdude" target="_blank">DerMinusdude</a>
+                
+                <div class="creator-links">
+                    <a href="https://twitch.tv/derminusdude" target="_blank" class="social-link twitch">
+                        <span class="icon">👾</span>
+                        <span class="text">Twitch</span>
+                        <span class="hover-text">Komm vorbei!</span>
+                    </a>
+                    
+                    <a href="https://discord.gg/derminusdude" target="_blank" class="social-link discord">
+                        <span class="icon">💬</span>
+                        <span class="text">Discord</span>
+                        <span class="hover-text">Join der Community</span>
+                    </a>
                 </div>
-                <div class="creator-item">
-                    <span class="icon">💬</span>
-                    <span class="label">Discord:</span>
-                    <a href="https://discord.gg/k4fv3PzNSJ" target="_blank">DerMinusdude Server</a>
+
+                <div class="creator-description">
+                    <p>Hey! 👋 Diese Seite wurde komplett von einer KI (Claude) erstellt - 
+                       ich wollte einfach mal sehen, was passiert wenn man eine KI eine Emote-Seite bauen lässt! 🤖</p>
+                    <p>Ich bin eigentlich nur Twitch Streamer, aber fand die Idee witzig 
+                       was Cooles mit Emotes zu machen. Die KI hat alles selbst programmiert.</p>
+                    <p>Falls du Bock hast, schau doch mal auf Twitch vorbei - 
+                       wir haben eine super entspannte Community! ✨</p>
                 </div>
             </div>
-            <button id="closeModal" class="menu-button">
+            
+            <button id="closeModal" class="menu-button close-button">
                 <span class="icon">✖️</span>
                 <span class="text">Schließen</span>
             </button>
@@ -156,15 +178,23 @@
         </div>
     </div>
 
-    <!-- Settings Modal -->
+    <!-- Einstellungs-Modal -->
     <div id="settingsModal" class="modal">
         <div class="modal-content menu-content">
-            <h1 class="menu-title">Einstellungen & Hilfe</h1>
-            
+            <div class="modal-header">
+                <button id="closeSettings" class="close-button">
+                    <span class="close-icon">✕</span>
+                    <span class="close-text">Schließen</span>
+                </button>
+                <h2 class="menu-title">Einstellungen & Hilfe</h2>
+            </div>
+
+            <!-- Spielmodi -->
             <div class="settings-section">
-                <h2>🎮 Spielmodi</h2>
-                <div class="info-box">
-                    <h3>Emote Party</h3>
+                <h3>🎮 Spielmodi</h3>
+                
+                <div class="mode-info">
+                    <h4>Emote Party</h4>
                     <p>Bewegende Emotes mit verschiedenen Hintergründen. Du kannst:</p>
                     <ul>
                         <li>Emotes durch Klicken ändern</li>
@@ -174,8 +204,8 @@
                     </ul>
                 </div>
 
-                <div class="info-box">
-                    <h3>Rate Modus</h3>
+                <div class="mode-info">
+                    <h4>Rate Modus</h4>
                     <p>Teste dein Emote-Wissen! Funktionsweise:</p>
                     <ul>
                         <li>Ein zufälliges Emote wird angezeigt</li>
@@ -185,8 +215,8 @@
                     </ul>
                 </div>
 
-                <div class="info-box">
-                    <h3>Memory</h3>
+                <div class="mode-info">
+                    <h4>Memory</h4>
                     <p>Klassisches Memory-Spiel mit Emotes:</p>
                     <ul>
                         <li>Finde passende Emote-Paare</li>
@@ -195,8 +225,8 @@
                     </ul>
                 </div>
 
-                <div class="info-box">
-                    <h3>Emote Catcher</h3>
+                <div class="mode-info">
+                    <h4>Emote Catcher</h4>
                     <p>Fange fallende Emotes:</p>
                     <ul>
                         <li>Bewege dich mit ← → oder A D</li>
@@ -207,36 +237,28 @@
                 </div>
             </div>
 
+            <!-- Emote-Sets -->
             <div class="settings-section">
-                <h2>⚙️ Emote-Sets</h2>
-                <div class="info-box">
-                    <h3>Set-IDs</h3>
-                    <p>Du kannst verschiedene Emote-Sets verwenden:</p>
-                    <ul>
-                        <li>"global" - Globale 7TV Emotes</li>
-                        <li>Custom Set ID - Dein eigenes Set</li>
-                    </ul>
-                    <p>Set-ID findest du in der URL deines 7TV Sets:<br>
-                    <code>7tv.app/emote-sets/[DEINE-SET-ID]</code></p>
-                </div>
+                <h3>⚙️ Emote-Sets</h3>
+                <p>Du kannst verschiedene Emote-Sets verwenden:</p>
+                <ul>
+                    <li>"global" - Globale 7TV Emotes</li>
+                    <li>Custom Set ID - Dein eigenes Set</li>
+                </ul>
+                <p>Set-ID findest du in der URL deines 7TV Sets:<br>
+                <code>7tv.app/emote-sets/[DEINE-SET-ID]</code></p>
             </div>
 
+            <!-- Tipps & Tricks -->
             <div class="settings-section">
-                <h2>💡 Tipps & Tricks</h2>
-                <div class="info-box">
-                    <ul>
-                        <li>Rechtsklick ändert alle Emotes im klassischen Modus</li>
-                        <li>Halte die Maus über Buttons für mehr Infos</li>
-                        <li>Nutze die Tastatur für schnellere Eingaben</li>
-                        <li>Interface-Elemente sind verschiebbar</li>
-                    </ul>
-                </div>
+                <h3>💡 Tipps & Tricks</h3>
+                <ul>
+                    <li>Rechtsklick ändert alle Emotes im klassischen Modus</li>
+                    <li>Halte die Maus über Buttons für mehr Infos</li>
+                    <li>Nutze die Tastatur für schnellere Eingaben</li>
+                    <li>Interface-Elemente sind verschiebbar</li>
+                </ul>
             </div>
-
-            <button id="closeSettings" class="menu-button close-button">
-                <span class="icon">✖️</span>
-                <span class="text">Schließen</span>
-            </button>
         </div>
     </div>
 
@@ -255,7 +277,7 @@
 
     <button id="patchNotesButton" class="patch-notes-button">
         <span class="icon">📝</span>
-        <span>v1.2.0</span>
+        <span>v1.3.0</span>
     </button>
 
     <!-- Patch Notes Modal -->
@@ -263,6 +285,32 @@
         <div class="modal-content menu-content">
             <h2 class="menu-title">Patch Notes</h2>
             <div class="patch-notes">
+                <div class="patch-version">
+                    <h3>Version 1.3.0</h3>
+                    <ul>
+                        <li>🎨 Neues Design:</li>
+                        <ul>
+                            <li>Komplett überarbeitetes Einstellungsmenü</li>
+                            <li>Neue Creator-Sektion mit eigenem Style</li>
+                            <li>Verbesserte Button-Designs</li>
+                            <li>Modernere Benutzeroberfläche</li>
+                        </ul>
+                        <li>✨ Neue Features:</li>
+                        <ul>
+                            <li>KI-Info Bereich hinzugefügt</li>
+                            <li>Verbessertes Emote-Set System</li>
+                            <li>Neue Hintergrund-Effekte</li>
+                            <li>Discord Integration für Feedback</li>
+                        </ul>
+                        <li>🛠️ Verbesserungen:</li>
+                        <ul>
+                            <li>Schnellere Ladezeiten</li>
+                            <li>Bessere Mobile Unterstützung</li>
+                            <li>Stabilere Emote-Verwaltung</li>
+                            <li>Optimierte Performance</li>
+                        </ul>
+                    </ul>
+                </div>
                 <div class="patch-version">
                     <h3>Version 1.2.0</h3>
                     <ul>
@@ -331,6 +379,73 @@
         </div>
     </div>
 
+    <!-- Füge den Login-Button im Header hinzu, vor der Version -->
+    <div class="menu-header">
+        <button id="twitchLogin" class="twitch-button">
+            <span class="icon">👾</span>
+            <span class="text">Mit Twitch verbinden</span>
+        </button>
+        <div id="userInfo" class="user-info" style="display: none;">
+            <img id="userAvatar" class="user-avatar" src="" alt="User Avatar">
+            <span id="userName" class="user-name"></span>
+            <button id="logout" class="logout-button">
+                <span class="icon">🚪</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hintergrund-Modal -->
+    <div id="backgroundModal" class="modal">
+        <div class="modal-content menu-content">
+            <h2 class="menu-title">Einstellungen</h2>
+            
+            <!-- Hintergrund-Effekte -->
+            <div class="settings-section">
+                <h3>Hintergrund-Effekte</h3>
+                <div class="background-options">
+                    <button class="bg-option active" data-bg="stars">
+                        <span class="icon">✨</span>
+                        <span class="text">Sterne</span>
+                    </button>
+                    <button class="bg-option" data-bg="emotes">
+                        <span class="icon">🎭</span>
+                        <span class="text">Fallende Emotes</span>
+                    </button>
+                    <button class="bg-option" data-bg="rainbow">
+                        <span class="icon">🌈</span>
+                        <span class="text">Regenbogen</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Emote-Set Auswahl -->
+            <div class="emote-set-selector">
+                <h3>Emote-Set Auswahl</h3>
+                <div class="set-options">
+                    <button class="set-option active" data-set="global">
+                        <span class="icon">🌍</span>
+                        <span class="text">Standard Set</span>
+                    </button>
+                    <button class="set-option" data-set="custom">
+                        <span class="icon">📦</span>
+                        <span class="text">Eigenes Set</span>
+                    </button>
+                </div>
+                <div class="custom-set-input">
+                    <input type="text" id="customSetId" placeholder="Set ID eingeben...">
+                    <button id="loadCustomSet" class="menu-button">Laden</button>
+                </div>
+            </div>
+
+            <button id="closeBackground" class="menu-button close-button">
+                <span class="icon">✖️</span>
+                <span class="text">Schließen</span>
+            </button>
+        </div>
+    </div>
+
     <script src="./index.js"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html> 

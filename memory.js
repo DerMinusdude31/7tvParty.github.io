@@ -258,3 +258,39 @@ function getGridClass(pairCount) {
         default: return ''; // 4x4 Standard
     }
 } 
+
+class MemoryGame {
+    constructor() {
+        this.emotes = [];
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.canFlip = true;
+        this.gameActive = false;
+        
+        // Verbesserte Performance durch Event-Delegation
+        this.gridElement = document.getElementById('memoryGrid');
+        this.gridElement.addEventListener('click', (e) => {
+            const card = e.target.closest('.memory-card');
+            if (card) this.handleCardClick(card);
+        });
+    }
+
+    handleCardClick(card) {
+        if (!this.canFlip || this.flippedCards.includes(card) || 
+            card.classList.contains('matched')) return;
+
+        this.flipCard(card);
+    }
+
+    flipCard(card) {
+        requestAnimationFrame(() => {
+            card.classList.add('flipped');
+            this.flippedCards.push(card);
+            
+            if (this.flippedCards.length === 2) {
+                this.checkMatch();
+            }
+        });
+    }
+} 

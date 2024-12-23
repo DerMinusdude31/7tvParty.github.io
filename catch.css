@@ -1,10 +1,16 @@
 :root {
     --primary-color: #9146FF;
-    --hover-color: #772CE8;
+    --primary-color-light: rgba(145, 70, 255, 0.2);
+    --primary-color-dark: #772CE8;
     --background-dark: #0E0E10;
     --panel-background: rgba(14, 14, 16, 0.8);
     --text-color: white;
+    --text-color-muted: #aaa;
+    --success-color: #4CAF50;
     --border-radius: 10px;
+    --shadow-color: rgba(145, 70, 255, 0.3);
+    --transition-speed: 0.3s;
+    --transition-timing: ease;
 }
 
 body {
@@ -14,10 +20,12 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background: var(--background-dark);
     color: var(--text-color);
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #background-canvas {
@@ -296,9 +304,18 @@ body {
 
 /* Neue Animationen */
 @keyframes levelUp {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.5); color: #4CAF50; }
-    100% { transform: scale(1); }
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.5);
+        color: var(--success-color);
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .level-up {
@@ -343,3 +360,826 @@ body {
     0% { opacity: 1; transform: translateY(0); }
     100% { opacity: 0; transform: translateY(-50px); }
 } 
+
+/* Gemeinsame Styles für Overlays */
+.overlay-panel {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Button-Styles vereinheitlichen */
+.button {
+    background: var(--primary-color-light);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+/* Verbesserte Animation-Performance */
+.game-over-box,
+.powerup-notification,
+.score-popup {
+    will-change: transform, opacity;
+}
+
+/* Media Queries für Responsivität */
+@media (max-width: 768px) {
+    #gameInfo {
+        min-width: 300px;
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+
+    .game-over-box {
+        width: 90%;
+        max-width: 400px;
+    }
+}
+
+/* Verbesserte Zugänglichkeit */
+.button:focus,
+input:focus,
+select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Optimierte Animationen */
+@keyframes levelUp {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.5);
+        color: var(--success-color);
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.slot {
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin: 0 15px;
+}
+
+.slot-content {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emote-container {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.emote-container img {
+    width: 95%;
+    height: 95%;
+    object-fit: contain;
+}
+
+.emote-stats {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px 15px;
+    border-radius: 12px;
+    font-size: 1em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    border: 1px solid var(--primary-color);
+}
+
+.emote-container:hover .emote-stats {
+    opacity: 1;
+    bottom: -40px;
+}
+
+.casino-game {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 40px rgba(145, 70, 255, 0.3);
+}
+
+.emote-slots {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    margin: 40px 0;
+    perspective: 1000px;
+}
+
+/* Emote Rarity Styles */
+.emote-container {
+    position: relative;
+    padding: 5px;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.emote-stats {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    font-size: 0.8em;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 8px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.emote-container:hover .emote-stats {
+    opacity: 1;
+    bottom: -25px;
+}
+
+/* Rarity Colors */
+.common {
+    border: 2px solid #9e9e9e;
+    box-shadow: 0 0 15px rgba(158, 158, 158, 0.3);
+}
+
+.rare {
+    border: 2px solid #2196F3;
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.4);
+}
+
+.epic {
+    border: 2px solid #9C27B0;
+    box-shadow: 0 0 25px rgba(156, 39, 176, 0.5);
+}
+
+.legendary {
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    animation: legendaryGlow 2s infinite;
+}
+
+@keyframes legendaryGlow {
+    0% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); }
+    50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.8); }
+    100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); }
+}
+
+.rarity {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.rarity.common { color: #9e9e9e; }
+.rarity.rare { color: #2196F3; }
+.rarity.epic { color: #9C27B0; }
+.rarity.legendary { color: #FFD700; }
+
+.value, .multiplier {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Casino Tutorial Styles */
+.casino-tutorial {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 40px;
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.casino-tutorial h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+}
+
+.casino-tutorial h3 {
+    color: var(--text-color);
+    font-size: 1.3em;
+    margin: 1rem 0;
+}
+
+.tutorial-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.tutorial-section {
+    background: rgba(145, 70, 255, 0.1);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(145, 70, 255, 0.2);
+}
+
+.rarity-examples {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.rarity-examples .emote-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 15px;
+}
+
+.rarity-examples .info {
+    font-size: 0.9em;
+    color: var(--text-color-muted);
+}
+
+.tutorial-section ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.tutorial-section li {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.tutorial-section li::before {
+    content: '•';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0.5rem;
+}
+
+#closeTutorial {
+    margin-top: 1.5rem;
+    width: 100%;
+    justify-content: center;
+    font-size: 1.2em;
+    background: var(--primary-color-light);
+}
+
+#closeTutorial:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px var(--shadow-color);
+}
+
+/* Animation für das Tutorial */
+.casino-tutorial {
+    animation: tutorialFadeIn 0.5s ease-out;
+}
+
+@keyframes tutorialFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Spin Button größer */
+.spin-button {
+    padding: 15px 30px;
+    font-size: 1.3em;
+    margin-top: 30px;
+}
+
+/* Big Win Animation */
+.big-win-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    text-align: center;
+    animation: bigWinPulse 3s ease-out;
+    pointer-events: none;
+}
+
+.win-text {
+    font-size: 4em;
+    color: gold;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    animation: winTextGlow 0.5s ease-in-out infinite alternate;
+}
+
+.win-amount {
+    font-size: 2.5em;
+    color: white;
+    margin-top: 0.5em;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes bigWinPulse {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    10% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    20% { transform: translate(-50%, -50%) scale(1); }
+    90% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+}
+
+@keyframes winTextGlow {
+    from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    to { text-shadow: 0 0 40px rgba(255, 215, 0, 1); }
+}
+
+/* Füge diese Styles zu catch.css hinzu */
+.reset-button {
+    position: absolute;
+    top: 20px;
+    right: 180px; /* Platz nach dem backToMenu Button */
+    background: rgba(255, 87, 34, 0.1);
+    border: 2px solid #FF5722;
+}
+
+.reset-button:hover {
+    background: rgba(255, 87, 34, 0.2);
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+.reset-options {
+    padding: 2rem;
+    text-align: center;
+}
+
+.reset-options h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+}
+
+.option-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.option-buttons .menu-button {
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    padding: 15px 30px;
+}
+
+#changePet {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: #2196F3;
+}
+
+#changePet:hover {
+    background: rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+#resetCurrentPet {
+    background: rgba(255, 87, 34, 0.1);
+    border-color: #FF5722;
+}
+
+#resetCurrentPet:hover {
+    background: rgba(255, 87, 34, 0.2);
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+#cancelReset {
+    background: rgba(158, 158, 158, 0.1);
+    border-color: #9E9E9E;
+}
+
+#cancelReset:hover {
+    background: rgba(158, 158, 158, 0.2);
+    box-shadow: 0 0 20px rgba(158, 158, 158, 0.3);
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Anpassungen für die Pet-Aktionsbuttons */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.action-btn {
+    position: relative;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.action-btn:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.action-btn:active {
+    transform: translateY(-1px);
+}
+
+.action-btn .icon {
+    font-size: 1.3em;
+}
+
+/* Anpassungen für die Minispiele-Leiste */
+.minigame-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    align-items: center;
+}
+
+.divider {
+    width: 2px;
+    height: 30px;
+    background: rgba(145, 70, 255, 0.3);
+    margin: 0 10px;
+}
+
+/* Spezielle Styles für die Reset-Buttons */
+#changePet {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: #2196F3;
+}
+
+#changePet:hover {
+    background: rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+#resetCurrentPet {
+    background: rgba(255, 87, 34, 0.1);
+    border-color: #FF5722;
+}
+
+#resetCurrentPet:hover {
+    background: rgba(255, 87, 34, 0.2);
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+.sandbox-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sandbox-btn {
+    background: rgba(255, 152, 0, 0.1);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.sandbox-btn:hover {
+    background: rgba(255, 152, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Spezielle Styles für die Reset-Buttons */
+#changePet.sandbox-btn {
+    background: rgba(33, 150, 243, 0.1);
+    border: 2px solid #2196F3;
+}
+
+#changePet.sandbox-btn:hover {
+    background: rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+#resetCurrentPet.sandbox-btn {
+    background: rgba(255, 87, 34, 0.1);
+    border: 2px solid #FF5722;
+}
+
+#resetCurrentPet.sandbox-btn:hover {
+    background: rgba(255, 87, 34, 0.2);
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+/* Emote-Auswahl Modal Styles */
+.emote-select-modal {
+    padding: 2.5rem;
+    text-align: center;
+    max-width: 1000px;
+    width: 95%;
+    background: rgba(0, 0, 0, 0.95);
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 50px rgba(145, 70, 255, 0.3);
+}
+
+.emote-select-modal h2 {
+    color: var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 15px rgba(145, 70, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.emote-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 2rem;
+    background: rgba(145, 70, 255, 0.05);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(145, 70, 255, 0.2);
+}
+
+.emote-option {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.emote-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(145, 70, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.emote-option:hover::before {
+    transform: translateX(100%);
+}
+
+.emote-option:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.3);
+    border-color: var(--primary-color-light);
+}
+
+.emote-option img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.emote-option:hover img {
+    transform: scale(1.1);
+}
+
+.emote-name {
+    color: var(--text-color);
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(145, 70, 255, 0.1);
+    border-radius: var(--border-radius);
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.emote-option:hover .emote-name {
+    background: rgba(145, 70, 255, 0.2);
+    color: var(--primary-color-light);
+}
+
+#cancelPetChange {
+    margin-top: 2rem;
+    padding: 1rem 3rem;
+    font-size: 1.2em;
+    background: rgba(255, 87, 34, 0.1);
+    border: 2px solid #FF5722;
+    transition: all 0.3s ease;
+}
+
+#cancelPetChange:hover {
+    background: rgba(255, 87, 34, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+.loading-emotes {
+    grid-column: 1 / -1;
+    padding: 3rem;
+    font-size: 1.2em;
+    color: var(--text-color-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.loading-emotes::before {
+    content: '🔄';
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .emote-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .emote-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .emote-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .emote-option img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.warning-message {
+    background: rgba(255, 87, 34, 0.1);
+    border: 2px solid #FF5722;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: var(--border-radius);
+    color: #FF5722;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.emote-select-modal {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.emote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.emote-option {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.emote-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.emote-option img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.emote-name {
+    margin-top: 10px;
+    display: block;
+    color: var(--text-color);
+}

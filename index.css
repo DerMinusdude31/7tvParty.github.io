@@ -150,13 +150,17 @@ body {
 }
 
 .creator-button {
-    background: linear-gradient(45deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
-    border-color: var(--primary-color);
+    background: rgba(255, 71, 166, 0.1) !important;
+    border-color: #FF47A6 !important;
 }
 
 .creator-button:hover {
-    background: linear-gradient(45deg, rgba(145, 70, 255, 0.3), rgba(119, 44, 232, 0.3));
-    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+    background: rgba(255, 71, 166, 0.2) !important;
+    box-shadow: 0 0 20px rgba(255, 71, 166, 0.3) !important;
+}
+
+.creator-button .icon {
+    color: #FF47A6;
 }
 
 .settings-button {
@@ -220,10 +224,100 @@ body {
 }
 
 .creator-info {
-    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: var(--border-radius);
+    margin: 20px 0;
+}
+
+.creator-profile {
+    text-align: center;
+    padding: 20px;
+    background: rgba(145, 70, 255, 0.1);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+}
+
+.creator-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    margin-bottom: 15px;
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.creator-profile h3 {
+    font-size: 1.5em;
+    margin: 10px 0 5px;
+    color: var(--primary-color);
+}
+
+.creator-tagline {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    margin: 0;
+}
+
+.creator-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+    background: rgba(145, 70, 255, 0.2);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.social-link .icon {
+    font-size: 1.5em;
+}
+
+.social-link .hover-text {
+    position: absolute;
+    right: 15px;
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.social-link:hover .hover-text {
+    opacity: 0.8;
+}
+
+.creator-description {
+    text-align: center;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(145, 70, 255, 0.1);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+}
+
+.creator-description p {
+    margin: 10px 0;
 }
 
 .creator-item {
@@ -788,4 +882,227 @@ body {
     margin-bottom: 0;
     padding-bottom: 0;
     border-bottom: none;
+}
+
+/* Füge diese Styles für den Twitch-Login hinzu */
+.menu-header {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.twitch-button {
+    background: #9146FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.twitch-button:hover {
+    background: #772CE8;
+    transform: translateY(-2px);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(145, 70, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.user-name {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Füge diese Styles für deaktivierte Buttons hinzu */
+.menu-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: rgba(80, 80, 80, 0.1);
+    border-color: #666;
+}
+
+.menu-button:disabled .button-content {
+    opacity: 0.7;
+}
+
+.menu-button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: rgba(80, 80, 80, 0.1);
+}
+
+.menu-button:disabled .hover-info {
+    color: #ff9800;
+    font-style: italic;
+}
+
+/* Styles für das Emote-Set Modal */
+.set-input {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.set-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
+    font-size: 1em;
+}
+
+.set-info {
+    text-align: left;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+}
+
+.set-info h3 {
+    color: var(--primary-color);
+    margin: 0 0 10px 0;
+}
+
+.set-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.set-info li {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styles für die Hintergrund-Optionen */
+.background-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.bg-option {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.bg-option:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.bg-option.active {
+    background: rgba(145, 70, 255, 0.3);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.bg-option .icon {
+    font-size: 2em;
+}
+
+/* Styles für die Emote-Set Auswahl */
+.emote-set-selector {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emote-set-selector h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.set-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.set-option {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.set-option:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.set-option.active {
+    background: rgba(145, 70, 255, 0.3);
+    box-shadow: 0 0 15px rgba(145, 70, 255, 0.3);
+}
+
+.custom-set-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.custom-set-input input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
 }
