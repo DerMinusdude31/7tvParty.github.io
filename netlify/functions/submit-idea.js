@@ -25,7 +25,8 @@ exports.handler = async function(event, context) {
                 embeds: [{
                     title: '💡 Neue Idee: ' + title,
                     description: description,
-                    color: 0x4CAF50
+                    color: 0x4CAF50,
+                    timestamp: new Date().toISOString()
                 }]
             })
         });
