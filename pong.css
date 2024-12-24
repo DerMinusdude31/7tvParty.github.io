@@ -1,0 +1,255 @@
+:root {
+    --primary-color: #9146FF;
+    --hover-color: #772CE8;
+    --background-dark: #0E0E10;
+    --panel-background: rgba(14, 14, 16, 0.8);
+    --text-color: white;
+    --border-radius: 10px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: var(--background-dark);
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#gameCanvas {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.2);
+    z-index: 1;
+}
+
+#gameInfo {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--panel-background);
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    font-size: 1.5em;
+    z-index: 1000;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+#gameInfo span {
+    color: var(--text-color);
+}
+
+#score1, #score2 {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.menu-button, .control-button {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.menu-button:hover, .control-button:hover {
+    background: rgba(145, 70, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+#backToMenu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+#toggleSettings {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#settings {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--panel-background);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    z-index: 1000;
+    border: 2px solid var(--primary-color);
+}
+
+.setting-group {
+    margin-bottom: 15px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting-group input {
+    width: 100%;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    border-radius: 4px;
+}
+
+#controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel-background);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    display: flex;
+    gap: 20px;
+    font-size: 0.9em;
+    color: #aaa;
+    z-index: 1000;
+    border: 2px solid var(--primary-color);
+}
+
+/* Emote Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: var(--panel-background);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    max-width: 400px;
+    width: 90%;
+    border: 2px solid var(--primary-color);
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+}
+
+#emoteGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.emote-option {
+    width: 100px;
+    height: 100px;
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.emote-option:hover {
+    transform: scale(1.1);
+    background: rgba(145, 70, 255, 0.2);
+}
+
+.emote-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.set-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.set-input input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+}
+
+.watermark {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    font-size: 12px;
+    z-index: 1000;
+    transition: color 0.3s;
+}
+
+.watermark:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.pause-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pause-buttons .menu-button {
+    width: 100%;
+    justify-content: center;
+    font-size: 1.2em;
+    padding: 15px;
+}
+
+.pause-buttons .menu-button:hover {
+    transform: scale(1.05);
+} 

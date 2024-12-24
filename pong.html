@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>7TV Emote Pong</title>
+    <link rel="stylesheet" href="pong.css">
+</head>
+<body>
+    <canvas id="background-canvas"></canvas>
+    <canvas id="gameCanvas"></canvas>
+    <div id="loading">Lade Emotes...</div>
+
+    <div id="gameInfo">
+        <span>Spieler 1: <span id="score1">0</span></span>
+        <span>Spieler 2: <span id="score2">0</span></span>
+    </div>
+
+    <button id="toggleSettings" class="control-button">⚙️ Einstellungen</button>
+    <button id="backToMenu" class="menu-button">
+        <span class="icon">🏠</span>
+        <span class="text">Zurück zum Menü</span>
+    </button>
+
+    <!-- Emote-Auswahl Modal -->
+    <div id="emoteModal" class="modal">
+        <div class="modal-content">
+            <h2>Wähle ein Emote als Ball</h2>
+            <div id="emoteGrid"></div>
+            <div class="set-input">
+                <input type="text" id="emoteSetId" value="global" 
+                    placeholder="Set ID (leer = globale Emotes)">
+                <button id="loadSet" class="menu-button">
+                    <span class="icon">✅</span>
+                    <span class="text">Set laden</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Einstellungen -->
+    <div id="settings" style="display: none;">
+        <h2>Einstellungen</h2>
+        <div class="setting-group">
+            <label for="ballSpeed">Ball-Geschwindigkeit:</label>
+            <input type="range" id="ballSpeed" min="3" max="15" value="7">
+        </div>
+        <div class="setting-group">
+            <label for="paddleSize">Schläger-Größe:</label>
+            <input type="range" id="paddleSize" min="50" max="200" value="100">
+        </div>
+        <div class="setting-group">
+            <label for="winScore">Punkte zum Sieg:</label>
+            <input type="number" id="winScore" min="1" max="20" value="5">
+        </div>
+        <div class="setting-group">
+            <label>
+                <input type="checkbox" id="aiEnabled" checked>
+                Gegen KI spielen
+            </label>
+        </div>
+        <div class="setting-group">
+            <label for="aiDifficulty">KI-Schwierigkeit:</label>
+            <input type="range" id="aiDifficulty" min="0.1" max="1" step="0.1" value="0.8">
+        </div>
+        <button id="changeBall" class="menu-button">Emote ändern</button>
+        <button id="applySettings">Anwenden</button>
+    </div>
+
+    <!-- Pause Menü -->
+    <div id="pauseMenu" style="display: none;" class="modal">
+        <div class="modal-content">
+            <h2>Pause</h2>
+            <div class="pause-buttons">
+                <button id="resumeGame" class="menu-button">
+                    <span class="icon">▶️</span>
+                    <span class="text">Fortfahren</span>
+                </button>
+                <button id="openSettingsFromPause" class="menu-button">
+                    <span class="icon">⚙️</span>
+                    <span class="text">Einstellungen</span>
+                </button>
+                <button id="backToMenuFromPause" class="menu-button">
+                    <span class="icon">🏠</span>
+                    <span class="text">Zurück zum Menü</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="controls">
+        <div>Spieler 1: W/S</div>
+        <div>Spieler 2: ↑/↓</div>
+        <div>Pause: Leertaste</div>
+    </div>
+
+    <a href="https://twitch.tv/derminusdude" target="_blank" class="watermark">Created by DerMinusdude</a>
+    <script src="pong.js"></script>
+</body>
+</html> 

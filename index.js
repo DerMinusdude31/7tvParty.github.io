@@ -491,6 +491,111 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Füge dies zu den bestehenden Event Listenern hinzu
+    document.getElementById('pongMode').addEventListener('click', () => {
+        window.location.href = 'pong.html';
+    });
+
+    // Ideas Modal Functionality
+    const ideasButton = document.getElementById('ideasButton');
+    const ideasModal = document.getElementById('ideasModal');
+    const closeIdeas = document.getElementById('closeIdeas');
+    const submitIdea = document.getElementById('submitIdea');
+    const ideaTitle = document.getElementById('ideaTitle');
+    const ideaDescription = document.getElementById('ideaDescription');
+
+    ideasButton.addEventListener('click', () => {
+        ideasModal.style.display = 'flex';
+        ideasModal.style.opacity = '1';
+        ideasModal.style.visibility = 'visible';
+    });
+
+    closeIdeas.addEventListener('click', () => {
+        ideasModal.style.display = 'none';
+        ideasModal.style.opacity = '0';
+        ideasModal.style.visibility = 'hidden';
+        // Reset form
+        ideaTitle.value = '';
+        ideaDescription.value = '';
+    });
+
+    submitIdea.addEventListener('click', async () => {
+        if (!ideaTitle.value.trim() || !ideaDescription.value.trim()) {
+            alert('Bitte fülle beide Felder aus!');
+            return;
+        }
+
+        submitIdea.disabled = true;
+        submitIdea.innerHTML = '<span class="icon">⏳</span><span class="text">Wird gesendet...</span>';
+
+        try {
+            const response = await fetch('/.netlify/functions/submit-idea', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: ideaTitle.value.trim(),
+                    description: ideaDescription.value.trim()
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Danke für deine Idee! Sie wurde erfolgreich gespeichert.');
+                ideaTitle.value = '';
+                ideaDescription.value = '';
+            } else {
+                throw new Error(data.message || 'Netzwerkfehler');
+            }
+        } catch (error) {
+            console.error('Fehler beim Speichern der Idee:', error);
+            alert('Es gab einen Fehler beim Speichern deiner Idee. Bitte versuche es später noch einmal.');
+        } finally {
+            submitIdea.disabled = false;
+            submitIdea.innerHTML = '<span class="icon">✨</span><span class="text">Idee einreichen</span>';
+        }
+    });
+
+    // Schließen mit ESC-Taste
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            ideasModal.style.display = 'none';
+            ideasModal.style.opacity = '0';
+            ideasModal.style.visibility = 'hidden';
+        }
+    });
+
+    // Klick außerhalb des Modals zum Schließen
+    ideasModal.addEventListener('click', (e) => {
+        if (e.target === ideasModal) {
+            ideasModal.style.display = 'none';
+            ideasModal.style.opacity = '0';
+            ideasModal.style.visibility = 'hidden';
+        }
+    });
+
+    // Creator Modal
+    const creatorModal = document.getElementById('creatorModal');
+    const closeCreator = document.getElementById('closeCreator');
+    const creatorButton = document.getElementById('creatorButton');
+
+    creatorButton.addEventListener('click', () => {
+        creatorModal.style.display = 'flex';
+    });
+
+    closeCreator.addEventListener('click', () => {
+        creatorModal.style.display = 'none';
+    });
+
+    // Schließe das Creator-Modal wenn außerhalb geklickt wird
+    window.addEventListener('click', (event) => {
+        if (event.target === creatorModal) {
+            creatorModal.style.display = 'none';
+        }
+    });
 });
 
 // Start Animation
