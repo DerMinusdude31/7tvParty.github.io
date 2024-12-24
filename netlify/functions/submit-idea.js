@@ -1,6 +1,10 @@
-const https = require('https');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 exports.handler = async function(event, context) {
+    console.log('Funktion wurde aufgerufen');
+    console.log('HTTP Method:', event.httpMethod);
+    console.log('Environment Variable:', process.env.DISCORD_WEBHOOK_URL ? 'Vorhanden' : 'Fehlt');
+
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -10,6 +14,7 @@ exports.handler = async function(event, context) {
 
     try {
         const { title, description } = JSON.parse(event.body);
+        console.log('Erhaltene Daten:', { title, description });
 
         if (!title || !description) {
             return {
@@ -18,58 +23,45 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Discord Webhook Request
-        const data = JSON.stringify({
-            embeds: [{
-                title: '💡 Neue Idee: ' + title,
-                description: description,
-                color: 0x4CAF50,
-                timestamp: new Date().toISOString()
-            }]
+        const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+        if (!webhookUrl) {
+            console.error('Webhook URL fehlt');
+            throw new Error('Webhook URL nicht konfiguriert');
+        }
+
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                embeds: [{
+                    title: '💡 Neue Idee: ' + title,
+                    description: description,
+                    color: 0x4CAF50,
+                    timestamp: new Date().toISOString()
+                }]
+            })
         });
 
-        return new Promise((resolve, reject) => {
-            const webhookUrl = new URL(process.env.DISCORD_WEBHOOK_URL);
-            const req = https.request({
-                hostname: webhookUrl.hostname,
-                path: webhookUrl.pathname,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': data.length,
-                }
-            }, (res) => {
-                let responseBody = '';
-                
-                res.on('data', (chunk) => {
-                    responseBody += chunk;
-                });
+        console.log('Discord Response Status:', response.status);
 
-                res.on('end', () => {
-                    if (res.statusCode === 204 || res.statusCode === 200) {
-                        resolve({
-                            statusCode: 200,
-                            body: JSON.stringify({ message: 'Idee erfolgreich gesendet' })
-                        });
-                    } else {
-                        reject(new Error('Discord API Fehler: ' + res.statusCode));
-                    }
-                });
-            });
+        if (!response.ok) {
+            throw new Error('Discord API Fehler: ' + response.status);
+        }
 
-            req.on('error', (error) => {
-                reject(error);
-            });
-
-            req.write(data);
-            req.end();
-        });
-
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: 'Idee erfolgreich gesendet' })
+        };
     } catch (error) {
-        console.error('Fehler:', error);
+        console.error('Fehler:', error.message);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Server Fehler' })
+            body: JSON.stringify({ 
+                message: 'Server Fehler',
+                error: error.message 
+            })
         };
     }
 }; 
