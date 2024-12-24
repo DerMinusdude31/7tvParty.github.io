@@ -1,7 +1,6 @@
-const fetch = require('node-fetch');
+const https = require('https');
 
 exports.handler = async function(event, context) {
-    // Nur POST-Anfragen erlauben
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -12,7 +11,6 @@ exports.handler = async function(event, context) {
     try {
         const { title, description } = JSON.parse(event.body);
 
-        // Überprüfe die Eingaben
         if (!title || !description) {
             return {
                 statusCode: 400,
@@ -20,30 +18,53 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Sende die Nachricht an Discord
-        const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                embeds: [{
-                    title: '💡 Neue Idee: ' + title,
-                    description: description,
-                    color: 0x4CAF50,
-                    timestamp: new Date().toISOString()
-                }]
-            })
+        // Discord Webhook Request
+        const data = JSON.stringify({
+            embeds: [{
+                title: '💡 Neue Idee: ' + title,
+                description: description,
+                color: 0x4CAF50,
+                timestamp: new Date().toISOString()
+            }]
         });
 
-        if (!response.ok) {
-            throw new Error('Discord API Fehler');
-        }
+        return new Promise((resolve, reject) => {
+            const webhookUrl = new URL(process.env.DISCORD_WEBHOOK_URL);
+            const req = https.request({
+                hostname: webhookUrl.hostname,
+                path: webhookUrl.pathname,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': data.length,
+                }
+            }, (res) => {
+                let responseBody = '';
+                
+                res.on('data', (chunk) => {
+                    responseBody += chunk;
+                });
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ message: 'Idee erfolgreich gesendet' })
-        };
+                res.on('end', () => {
+                    if (res.statusCode === 204 || res.statusCode === 200) {
+                        resolve({
+                            statusCode: 200,
+                            body: JSON.stringify({ message: 'Idee erfolgreich gesendet' })
+                        });
+                    } else {
+                        reject(new Error('Discord API Fehler: ' + res.statusCode));
+                    }
+                });
+            });
+
+            req.on('error', (error) => {
+                reject(error);
+            });
+
+            req.write(data);
+            req.end();
+        });
+
     } catch (error) {
         console.error('Fehler:', error);
         return {
