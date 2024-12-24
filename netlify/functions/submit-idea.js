@@ -1,67 +1,70 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function(event, context) {
-    console.log('Funktion wurde aufgerufen');
-    console.log('HTTP Method:', event.httpMethod);
-    console.log('Environment Variable:', process.env.DISCORD_WEBHOOK_URL ? 'Vorhanden' : 'Fehlt');
+    // CORS Headers
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+    };
 
+    // Handle OPTIONS request (CORS preflight)
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 204,
+            headers
+        };
+    }
+
+    // Only allow POST
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
-            body: JSON.stringify({ message: 'Nur POST-Anfragen erlaubt' })
+            headers,
+            body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
 
     try {
         const { title, description } = JSON.parse(event.body);
-        console.log('Erhaltene Daten:', { title, description });
 
         if (!title || !description) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({ message: 'Titel und Beschreibung sind erforderlich' })
+                headers,
+                body: JSON.stringify({ error: 'Title and description are required' })
             };
         }
 
-        const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-        if (!webhookUrl) {
-            console.error('Webhook URL fehlt');
-            throw new Error('Webhook URL nicht konfiguriert');
-        }
-
-        const response = await fetch(webhookUrl, {
+        const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                content: null,
                 embeds: [{
-                    title: '💡 Neue Idee: ' + title,
-                    description: description,
+                    title: `💡 Neue Idee: ${title}`,
+                    description,
                     color: 0x4CAF50,
                     timestamp: new Date().toISOString()
                 }]
             })
         });
 
-        console.log('Discord Response Status:', response.status);
-
         if (!response.ok) {
-            throw new Error('Discord API Fehler: ' + response.status);
+            throw new Error(`Discord returned ${response.status}`);
         }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'Idee erfolgreich gesendet' })
+            headers,
+            body: JSON.stringify({ message: 'Idea submitted successfully' })
         };
     } catch (error) {
-        console.error('Fehler:', error.message);
+        console.error('Error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ 
-                message: 'Server Fehler',
-                error: error.message 
-            })
+            headers,
+            body: JSON.stringify({ error: 'Internal server error' })
         };
     }
 }; 
