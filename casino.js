@@ -58,19 +58,12 @@ let highscore = localStorage.getItem('casinoHighscore') || 0;
 let backgroundEmotes = [];
 let isBackgroundAnimating = false;
 let backgroundInterval;
+let activeEmotes = new Set(); // Für besseres Tracking der aktiven Emotes
 
-// Funktion zum Laden der Casino-Hintergrund-Emotes
+// Funktion zum Laden der Casino-Hintergrund-Emojis
 async function loadBackgroundEmotes() {
-    // Direkt Casino-Emojis verwenden statt 7TV Emotes
     backgroundEmotes = [
-        { url: '🎰', name: 'slot' },
-        { url: '💎', name: 'diamond' },
-        { url: '💰', name: 'money' },
-        { url: '🎲', name: 'dice' },
-        { url: '🃏', name: 'cards' },
-        { url: '👑', name: 'crown' },
-        { url: '🍀', name: 'luck' },
-        { url: '💫', name: 'stars' }
+        '🎰', '💎', '💰', '🎲', '🃏', '👑', '🍀', '💫'
     ];
 }
 
@@ -82,40 +75,40 @@ function createBackgroundEmote() {
     emote.className = 'background-emote';
     const randomEmote = backgroundEmotes[Math.floor(Math.random() * backgroundEmotes.length)];
     
-    // Startposition nur von oben, über die gesamte Breite
-    const startX = Math.random() * (window.innerWidth + 200) - 100; // Etwas außerhalb des Bildschirms
+    const startX = Math.random() * window.innerWidth;
     const startY = -50;
     
     emote.style.left = `${startX}px`;
     emote.style.top = `${startY}px`;
-    emote.textContent = randomEmote.url;
+    emote.textContent = randomEmote;
     
-    document.body.appendChild(emote);
+    // Optimierte Animation-Parameter
+    const duration = 4000 + Math.random() * 2000; // Reduzierte Dauer: 4-6 Sekunden
+    const rotation = Math.random() * 180 - 90; // Reduzierter Rotationsbereich
+    const scale = 0.8 + Math.random() * 0.4;
+    const swayAmount = (Math.random() * 100) - 50; // Reduzierte seitliche Bewegung
     
-    // Animation anpassen
-    const duration = 6000 + Math.random() * 4000; // 6-10 Sekunden
-    const rotation = Math.random() * 360 - 180; // -180 bis +180 Grad
-    const scale = 0.9 + Math.random() * 0.3; // 0.9 bis 1.2
-    const swayAmount = (Math.random() * 200) - 100; // -100px bis +100px seitliche Bewegung
-    
-    emote.animate([
+    const animation = emote.animate([
         { 
             transform: `translate(0, 0) rotate(0deg) scale(${scale})`,
             opacity: 0
         },
         {
-            transform: `translate(${swayAmount * 0.5}px, ${window.innerHeight * 0.4}px) rotate(${rotation * 0.5}deg) scale(${scale})`,
-            opacity: 0.7
-        },
-        {
             transform: `translate(${swayAmount}px, ${window.innerHeight + 100}px) rotate(${rotation}deg) scale(${scale})`,
-            opacity: 0
+            opacity: 0.7
         }
     ], {
         duration: duration,
         easing: 'linear'
-    }).onfinish = () => emote.remove();
+    });
 
+    animation.onfinish = () => {
+        emote.remove();
+        activeEmotes.delete(emote);
+    };
+
+    activeEmotes.add(emote);
+    document.body.appendChild(emote);
     return emote;
 }
 
@@ -124,66 +117,56 @@ function toggleBackgroundAnimation() {
     const canvas = document.getElementById('background-canvas');
     
     if (isBackgroundAnimating) {
-        // Animation stoppen mit sanftem Übergang
-        document.querySelectorAll('.background-emote').forEach(emote => {
-            emote.style.transition = 'all 1s ease-out';
-            emote.style.opacity = '0';
-            setTimeout(() => emote.remove(), 1000);
-        });
-        clearInterval(backgroundInterval);
+        // Animation stoppen
         isBackgroundAnimating = false;
+        clearInterval(backgroundInterval);
         document.getElementById('toggleBackgroundEmotes').classList.remove('active');
         
-        // Sterne sanft einblenden
-        canvas.style.transition = 'opacity 1.5s ease-in';
+        // Sanft alle aktiven Emotes ausblenden
+        activeEmotes.forEach(emote => {
+            emote.style.transition = 'opacity 0.5s ease-out';
+            emote.style.opacity = '0';
+            setTimeout(() => {
+                emote.remove();
+                activeEmotes.delete(emote);
+            }, 500);
+        });
+        
+        // Sterne einblenden
+        canvas.style.transition = 'opacity 0.5s ease-in';
         canvas.style.opacity = '1';
     } else {
-        // Sterne sanft ausblenden
-        canvas.style.transition = 'opacity 1.5s ease-out';
+        // Sterne ausblenden
+        canvas.style.transition = 'opacity 0.5s ease-out';
         canvas.style.opacity = '0';
         
         if (backgroundEmotes.length === 0) {
-            loadBackgroundEmotes().then(() => {
-                startBackgroundAnimation();
-                document.getElementById('toggleBackgroundEmotes').classList.add('active');
-            });
+            loadBackgroundEmotes().then(startBackgroundAnimation);
         } else {
             startBackgroundAnimation();
-            document.getElementById('toggleBackgroundEmotes').classList.add('active');
         }
+        document.getElementById('toggleBackgroundEmotes').classList.add('active');
     }
 }
 
 function startBackgroundAnimation() {
     isBackgroundAnimating = true;
     
-    // Erste Welle von Emotes
-    for (let i = 0; i < 15; i++) {
+    // Initiale Emotes mit Verzögerung
+    for (let i = 0; i < 8; i++) { // Reduzierte Anzahl
         setTimeout(() => {
-            const emote = createBackgroundEmote();
-            if (emote) {
-                emote.style.opacity = '0';
-                requestAnimationFrame(() => {
-                    emote.style.transition = 'opacity 0.5s ease-in';
-                    emote.style.opacity = '0.7';
-                });
-            }
-        }, i * 300);
+            if (!isBackgroundAnimating) return; // Prüfe ob Animation noch aktiv
+            createBackgroundEmote();
+        }, i * 200);
     }
     
     // Regelmäßige neue Emotes
     backgroundInterval = setInterval(() => {
-        if (Math.random() < 0.7) { // 70% Chance für ein neues Emoji
-            const emote = createBackgroundEmote();
-            if (emote) {
-                emote.style.opacity = '0';
-                requestAnimationFrame(() => {
-                    emote.style.transition = 'opacity 0.3s ease-in';
-                    emote.style.opacity = '0.7';
-                });
-            }
+        if (!isBackgroundAnimating) return;
+        if (activeEmotes.size < 15 && Math.random() < 0.5) { // Begrenzte Anzahl
+            createBackgroundEmote();
         }
-    }, 500);
+    }, 800); // Längeres Interval
 }
 
 // Event Listener für den Hintergrund-Toggle-Button
@@ -196,18 +179,9 @@ style.textContent = `
         position: fixed;
         z-index: -1;
         pointer-events: none;
-        opacity: 0.3;
-        filter: brightness(0.7);
-    }
-    
-    .background-emote img {
-        width: 48px;
-        height: 48px;
-    }
-    
-    #toggleBackgroundEmotes.active {
-        background: rgba(145, 70, 255, 0.3);
-        box-shadow: 0 0 15px rgba(145, 70, 255, 0.5);
+        opacity: 0;
+        font-size: 48px;
+        will-change: transform;
     }
 `;
 document.head.appendChild(style);
