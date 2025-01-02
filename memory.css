@@ -79,6 +79,10 @@ body {
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    background: var(--pixel-bg);
+    transition: transform 0.2s;
 }
 
 .memory-card:hover {
@@ -853,4 +857,28 @@ body {
     background: rgba(255, 165, 0, 0.1);
     border-radius: var(--border-radius);
     border: 1px solid rgba(255, 165, 0, 0.3);
+}
+
+.memory-card:active {
+    transform: scale(0.95) translate(4px, 4px);
+    box-shadow: none;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+    box-shadow: -4px 4px 0 #000;
+}
+
+.game-board {
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    padding: 20px;
+}
+
+.score-panel {
+    font-family: var(--pixel-text);
+    color: var(--pixel-accent);
+    text-shadow: 2px 2px 0 #000;
+    margin: 20px 0;
 }

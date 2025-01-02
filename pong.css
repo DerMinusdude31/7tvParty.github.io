@@ -252,4 +252,26 @@ body {
 
 .pause-buttons .menu-button:hover {
     transform: scale(1.05);
+}
+
+#pongCanvas {
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    background: var(--pixel-bg);
+    image-rendering: pixelated;
+}
+
+.score {
+    font-family: var(--pixel-text);
+    font-size: 24px;
+    text-shadow: var(--pixel-shadow);
+    color: var(--pixel-accent);
+}
+
+.game-container {
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    padding: 20px;
+    margin: 20px auto;
 } 

@@ -67,17 +67,43 @@ body {
 }
 
 .pet-container {
-    width: 300px;
-    height: 300px;
-    background: var(--panel-background);
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-    border: 2px solid var(--primary-color);
-    position: relative;
-    overflow: hidden;
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.pet-sprite {
+    image-rendering: pixelated;
+    transform-origin: center;
+}
+
+.stat-bar {
+    border: var(--pixel-border);
+    background: var(--pixel-bg);
+    height: 20px;
+    margin: 10px 0;
+}
+
+.stat-fill {
+    height: 100%;
+    background: var(--pixel-accent);
+}
+
+.pet-controls button {
+    margin: 5px;
+    padding: 10px 20px;
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    font-family: var(--pixel-text);
+    cursor: pointer;
+}
+
+.pet-controls button:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
 }
 
 #petEmote {

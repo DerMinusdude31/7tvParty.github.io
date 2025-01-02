@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7TV Party Casino</title>
+    <link rel="stylesheet" href="casino.css">
+</head>
+<body>
+    <canvas id="background-canvas"></canvas>
+    
+    <a href="index.html" id="backToMenu">← Zurück zum Menü</a>
+    
+    <div class="game-container">
+        <div class="game-header">
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Münzen</span>
+                    <span class="stat-value" id="coins">1000</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Höchster Gewinn</span>
+                    <span class="stat-value" id="winAmount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Highscore</span>
+                    <span class="stat-value" id="highscore">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Emotes pro Spin</span>
+                    <span class="stat-value" id="emoteCount">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-content">
+            <div class="slot-machine">
+                <div class="slots">
+                    <div class="slot">
+                        <div class="slot-content"></div>
+                    </div>
+                    <div class="slot">
+                        <div class="slot-content"></div>
+                    </div>
+                    <div class="slot">
+                        <div class="slot-content"></div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <div class="bet-controls">
+                        <button id="decreaseBet">-</button>
+                        <span id="currentBet">50</span>
+                        <button id="increaseBet">+</button>
+                    </div>
+                    
+                    <button id="spinButton">DREHEN</button>
+                </div>
+            </div>
+            
+            <div class="win-chances">
+                <h3>Gewinnchancen</h3>
+                <div class="chance-item">
+                    <div class="chance-example">
+                        <div class="mini-slot">🎰</div>
+                        <div class="mini-slot">🎰</div>
+                        <div class="mini-slot">🎰</div>
+                    </div>
+                    <div class="chance-info">
+                        <span class="chance-label">3 Gleiche: (5%)</span>
+                        <span class="chance-multiplier">x10</span>
+                    </div>
+                </div>
+                <div class="chance-item">
+                    <div class="chance-example">
+                        <div class="mini-slot">🎰</div>
+                        <div class="mini-slot">🎰</div>
+                        <div class="mini-slot">❓</div>
+                    </div>
+                    <div class="chance-info">
+                        <span class="chance-label">2 Gleiche: (15%)</span>
+                        <span class="chance-multiplier">x2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="winAnimation">
+        <span class="win-amount"></span>
+    </div>
+    
+    <div id="gameOverModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Game Over!</h2>
+            <div class="modal-stats">
+                <p>Höchster Gewinn: <span id="maxWin">0</span></p>
+                <p>Gesamt Spins: <span id="totalSpins">0</span></p>
+                <p>Highscore: <span id="finalHighscore">0</span></p>
+            </div>
+            <div class="modal-buttons">
+                <button id="restartGame">Neu starten</button>
+                <button id="returnToMenu">Zurück zum Menü</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loading">Lade Emotes...</div>
+    
+    <div class="emote-set-controls">
+        <input type="text" id="emoteSetInput" placeholder="7TV Emote-Set ID eingeben">
+        <button id="loadEmoteSet">Emote-Set laden</button>
+        <button id="showEmoteList">Emotes anzeigen</button>
+    </div>
+    
+    <button id="toggleBackgroundEmotes" class="background-toggle">🎰 Hintergrund</button>
+    
+    <div id="emoteListModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Aktuelle Emotes</h2>
+            <div id="emoteList" class="emote-grid"></div>
+            <button id="closeEmoteList" class="close-button">Schließen</button>
+        </div>
+    </div>
+    
+    <script src="casino.js"></script>
+</body>
+</html> 
+</html> 

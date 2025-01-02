@@ -7,6 +7,18 @@
     --text-color: white;
     --border-radius: 10px;
     --menu-gradient: linear-gradient(45deg, #9146FF, #772CE8);
+    --pixel-border: 4px solid #000;
+    --pixel-shadow: 4px 4px 0 #000;
+    --pixel-bg: #fff;
+    --pixel-accent: #ff4081;
+    --pixel-text: 'Press Start 2P', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    font-family: var(--pixel-text);
+    image-rendering: pixelated;
 }
 
 body {
@@ -197,6 +209,122 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: modalFadeIn 0.3s ease-out;
+    margin: auto;
+}
+
+.patch-notes {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 20px;
+    padding-left: 10px;
+}
+
+.patch-version {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.patch-version:hover {
+    transform: translateX(10px);
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.2);
+}
+
+.patch-version h3 {
+    color: var(--primary-color);
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.patch-version h3::before {
+    content: '🎮';
+    font-size: 1.2em;
+}
+
+.patch-version ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.patch-version > ul > li {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.patch-version ul ul {
+    margin-top: 10px;
+    margin-left: 25px;
+    border-left: 2px solid rgba(145, 70, 255, 0.3);
+    padding-left: 15px;
+}
+
+.patch-version ul ul li {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: normal;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.patch-version ul ul li::before {
+    content: '•';
+    color: var(--primary-color);
+    position: absolute;
+    left: -20px;
+    font-size: 1.2em;
+}
+
+/* Scrollbar Styling */
+.patch-notes::-webkit-scrollbar {
+    width: 8px;
+}
+
+.patch-notes::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.patch-notes::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.patch-notes::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color);
+}
+
+/* Animation für neue Versionen */
+.patch-version:first-child {
+    border-color: #FFD700;
+    background: linear-gradient(45deg, 
+        rgba(145, 70, 255, 0.15),
+        rgba(255, 215, 0, 0.15)
+    );
+}
+
+.patch-version:first-child h3 {
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.patch-version:first-child h3::before {
+    content: '🌟';
 }
 
 /* Ideas Form Styles */
@@ -759,4 +887,39 @@ body {
 
 .creator-description p {
     margin: 15px 0;
+}
+
+button, 
+.button,
+input[type="button"],
+input[type="submit"] {
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    padding: 8px 16px;
+    margin: 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: var(--pixel-text);
+}
+
+button:active,
+.button:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+.pixel-box {
+    background: var(--pixel-bg);
+    border: var(--pixel-border);
+    box-shadow: var(--pixel-shadow);
+    padding: 16px;
+    margin: 16px;
+}
+
+.pixel-text {
+    text-shadow: 2px 2px 0 #000;
+    color: var(--pixel-accent);
 }

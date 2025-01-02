@@ -66,6 +66,64 @@ let stars = Array(120).fill().map(() => ({
     size: Math.random() * 1.5 + 0.5
 }));
 
+// Event Listeners für Navigation und Modals
+document.addEventListener('DOMContentLoaded', () => {
+    // Navigation
+    document.getElementById('classicMode').addEventListener('click', () => {
+        window.location.href = 'classic.html';
+    });
+
+    document.getElementById('guessMode').addEventListener('click', () => {
+        window.location.href = 'guess.html';
+    });
+
+    document.getElementById('memoryMode').addEventListener('click', () => {
+        window.location.href = 'memory.html';
+    });
+
+    document.getElementById('catchMode').addEventListener('click', () => {
+        window.location.href = 'catch.html';
+    });
+
+    document.getElementById('pongMode').addEventListener('click', () => {
+        window.location.href = 'pong.html';
+    });
+
+    document.getElementById('casinoMode').addEventListener('click', () => {
+        window.location.href = 'casino.html';
+    });
+
+    // Patch Notes Modal
+    document.getElementById('patchNotesButton').addEventListener('click', () => {
+        document.getElementById('patchNotesModal').style.display = 'flex';
+        document.getElementById('patchNotesModal').style.opacity = '1';
+        document.getElementById('patchNotesModal').style.visibility = 'visible';
+    });
+
+    document.getElementById('closePatchNotes').addEventListener('click', () => {
+        document.getElementById('patchNotesModal').style.display = 'none';
+        document.getElementById('patchNotesModal').style.opacity = '0';
+        document.getElementById('patchNotesModal').style.visibility = 'hidden';
+    });
+
+    document.getElementById('helpSettings').addEventListener('click', () => {
+        document.getElementById('settingsModal').style.display = 'flex';
+        document.getElementById('settingsModal').style.opacity = '1';
+        document.getElementById('settingsModal').style.visibility = 'visible';
+        document.querySelector('.background-controls').style.display = 'none';
+    });
+
+    // Creator Modal
+    document.getElementById('aboutCreator').addEventListener('click', () => {
+        document.getElementById('creatorModal').style.display = 'flex';
+        document.getElementById('creatorModal').style.opacity = '1';
+        document.getElementById('creatorModal').style.visibility = 'visible';
+        document.querySelector('.background-controls').style.display = 'none';
+    });
+
+    // ... rest of the existing event listeners ...
+});
+
 // Emote Setup
 async function loadEmotes() {
     try {
@@ -149,12 +207,6 @@ function drawEmotes() {
     });
 }
 
-function easeInOutQuart(t) {
-    return t < 0.5
-        ? 8 * t * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 4) / 2;
-}
-
 function drawMatrix() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -175,29 +227,6 @@ function drawMatrix() {
     });
 }
 
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    switch(currentBackground) {
-        case 'stars':
-            drawStars();
-            break;
-        case 'emotes':
-            drawEmotes();
-            break;
-        case 'rainbow':
-            drawRainbow();
-            break;
-        default:
-            drawStars();
-    }
-    
-    requestAnimationFrame(animate);
-}
-
-// Neue Hintergrund-Funktionen
 function drawRainbow() {
     // Aktualisiere die Farben
     rainbowGradient.hue = (rainbowGradient.hue + rainbowGradient.speed) % 360;
@@ -220,15 +249,11 @@ function drawRainbow() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     // Sanfterer Glitzer-Effekt
-    if (Math.random() > 0.95) { // Reduzierte Wahrscheinlichkeit
+    if (Math.random() > 0.95) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const size = Math.random() * 1.5 + 0.5; // Kleinere Punkte
+        const size = Math.random() * 1.5 + 0.5;
         
-        // Sanftere Farbe und Transparenz
-        ctx.fillStyle = `hsla(${Math.random() * 360}, 100%, 80%, 0.3)`;
-        
-        // Weicherer Punkt mit Gradient
         const glow = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
         glow.addColorStop(0, `hsla(${Math.random() * 360}, 100%, 80%, 0.3)`);
         glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -259,276 +284,27 @@ function drawParticles() {
     });
 }
 
-// Event Listener für den Toggle-Button
-document.getElementById('toggleBackground').addEventListener('click', () => {
-    document.getElementById('backgroundModal').style.display = 'flex';
-});
-
-document.getElementById('closeBackground').addEventListener('click', () => {
-    document.getElementById('backgroundModal').style.display = 'none';
-});
-
-// Event-Listener für Hintergrund-Wechsel
-document.querySelector('.background-options').addEventListener('click', (e) => {
-    const button = e.target.closest('.bg-option');
-    if (button) {
-        const newBg = button.dataset.bg;
-        if (backgrounds[newBg]) {
-            currentBackground = newBg;
-            document.querySelectorAll('.bg-option').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            button.classList.add('active');
-            
-            // Speichere die Auswahl
-            localStorage.setItem('selectedBackground', newBg);
-        }
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgb(0, 0, 0)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    switch(currentBackground) {
+        case 'stars':
+            drawStars();
+            break;
+        case 'emotes':
+            drawEmotes();
+            break;
+        case 'rainbow':
+            drawRainbow();
+            break;
+        default:
+            drawStars();
     }
-});
-
-// Lade gespeicherten Hintergrund
-const savedBg = localStorage.getItem('selectedBackground');
-if (savedBg && backgrounds[savedBg]) {
-    currentBackground = savedBg;
+    
+    requestAnimationFrame(animate);
 }
-
-// Event Listeners für Navigation und Modals
-document.addEventListener('DOMContentLoaded', () => {
-    // Navigation
-    document.getElementById('classicMode').addEventListener('click', () => {
-        window.location.href = 'classic.html';
-    });
-
-    document.getElementById('guessMode').addEventListener('click', () => {
-        window.location.href = 'guess.html';
-    });
-
-    document.getElementById('memoryMode').addEventListener('click', () => {
-        window.location.href = 'memory.html';
-    });
-
-    document.getElementById('catchMode').addEventListener('click', () => {
-        window.location.href = 'catch.html';
-    });
-
-    document.getElementById('helpSettings').addEventListener('click', () => {
-        document.getElementById('settingsModal').style.display = 'flex';
-        document.getElementById('settingsModal').style.opacity = '1';
-        document.getElementById('settingsModal').style.visibility = 'visible';
-        document.querySelector('.background-controls').style.display = 'none';
-    });
-
-    // Creator Modal
-    document.getElementById('aboutCreator').addEventListener('click', () => {
-        document.getElementById('creatorModal').style.display = 'flex';
-        document.getElementById('creatorModal').style.opacity = '1';
-        document.getElementById('creatorModal').style.visibility = 'visible';
-        document.querySelector('.background-controls').style.display = 'none';
-    });
-
-    document.getElementById('closeModal').addEventListener('click', () => {
-        document.getElementById('creatorModal').style.display = 'none';
-        document.getElementById('creatorModal').style.opacity = '0';
-        document.getElementById('creatorModal').style.visibility = 'hidden';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    document.getElementById('closeSettings').addEventListener('click', () => {
-        document.getElementById('settingsModal').style.display = 'none';
-        document.getElementById('settingsModal').style.opacity = '0';
-        document.getElementById('settingsModal').style.visibility = 'hidden';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    // AI Info Modal
-    document.getElementById('aiInfoButton').addEventListener('click', () => {
-        document.getElementById('aiInfoModal').style.display = 'flex';
-        document.getElementById('aiInfoModal').style.opacity = '1';
-        document.getElementById('aiInfoModal').style.visibility = 'visible';
-        document.querySelector('.background-controls').style.display = 'none';
-    });
-
-    document.getElementById('closeAiInfo').addEventListener('click', () => {
-        document.getElementById('aiInfoModal').style.display = 'none';
-        document.getElementById('aiInfoModal').style.opacity = '0';
-        document.getElementById('aiInfoModal').style.visibility = 'hidden';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    // AI Warning Modal
-    document.getElementById('aiWarningButton').addEventListener('click', () => {
-        document.getElementById('aiWarningModal').style.display = 'flex';
-        document.getElementById('aiWarningModal').style.opacity = '1';
-        document.getElementById('aiWarningModal').style.visibility = 'visible';
-        document.querySelector('.background-controls').style.display = 'none';
-    });
-
-    document.getElementById('closeAiWarning').addEventListener('click', () => {
-        document.getElementById('aiWarningModal').style.display = 'none';
-        document.getElementById('aiWarningModal').style.opacity = '0';
-        document.getElementById('aiWarningModal').style.visibility = 'hidden';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    // Patch Notes Modal
-    document.getElementById('patchNotesButton').addEventListener('click', () => {
-        document.getElementById('patchNotesModal').style.display = 'flex';
-        document.getElementById('patchNotesModal').style.opacity = '1';
-        document.getElementById('patchNotesModal').style.visibility = 'visible';
-        document.querySelector('.background-controls').style.display = 'none';
-    });
-
-    document.getElementById('closePatchNotes').addEventListener('click', () => {
-        document.getElementById('patchNotesModal').style.display = 'none';
-        document.getElementById('patchNotesModal').style.opacity = '0';
-        document.getElementById('patchNotesModal').style.visibility = 'hidden';
-        document.querySelector('.background-controls').style.display = 'block';
-    });
-
-    // Global Modal Handling
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.getElementById('creatorModal').style.display = 'none';
-            document.getElementById('aiInfoModal').style.display = 'none';
-            document.getElementById('aiWarningModal').style.display = 'none';
-            document.getElementById('settingsModal').style.display = 'none';
-            document.getElementById('patchNotesModal').style.display = 'none';
-            document.querySelector('.background-controls').style.display = 'block';
-        }
-    });
-
-    // Click outside to close modals
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.querySelector('.background-controls').style.display = 'block';
-            }
-        });
-    });
-
-    // Füge dies zu den Event Listenern hinzu
-    document.getElementById('petMode').addEventListener('click', () => {
-        window.location.href = 'pet.html';
-    });
-
-    // Hintergrund Modal
-    document.getElementById('toggleBackground').addEventListener('click', () => {
-        document.getElementById('backgroundModal').style.display = 'flex';
-        document.getElementById('backgroundModal').style.opacity = '1';
-        document.getElementById('backgroundModal').style.visibility = 'visible';
-    });
-
-    document.getElementById('closeBackground').addEventListener('click', () => {
-        document.getElementById('backgroundModal').style.display = 'none';
-        document.getElementById('backgroundModal').style.opacity = '0';
-        document.getElementById('backgroundModal').style.visibility = 'hidden';
-    });
-
-    // Event-Listener für die Hintergrund-Optionen
-    document.querySelectorAll('.bg-option').forEach(button => {
-        button.addEventListener('click', async () => {
-            const bgType = button.dataset.bg;
-            
-            // Zeige/Verstecke Emote-Set Auswahl
-            const emoteSetSelector = document.querySelector('.emote-set-selector');
-            emoteSetSelector.style.display = bgType === 'emotes' ? 'block' : 'none';
-            
-            // Aktiven Button markieren
-            document.querySelectorAll('.bg-option').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            button.classList.add('active');
-            
-            // Wenn Emotes ausgewählt wurden, lade sie zuerst
-            if (bgType === 'emotes' && emotes.length === 0) {
-                button.querySelector('.text').textContent = 'Lade Emotes...';
-                await loadEmotes();
-                button.querySelector('.text').textContent = 'Fallende Emotes';
-            }
-            
-            // Setze den Hintergrund
-            currentBackground = bgType;
-            isEmoteMode = (bgType === 'emotes');
-        });
-    });
-
-    // Event-Listener für Set-Optionen
-    document.querySelectorAll('.set-option').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.set-option').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            button.classList.add('active');
-            
-            // Zeige/Verstecke Custom Set Input
-            const customInput = document.querySelector('.custom-set-input');
-            customInput.style.display = button.dataset.set === 'custom' ? 'flex' : 'none';
-        });
-    });
-
-    // Event-Listener für Custom Set laden
-    document.getElementById('loadCustomSet').addEventListener('click', async () => {
-        const setId = document.getElementById('customSetId').value.trim();
-        if (setId) {
-            try {
-                const response = await fetch(`https://7tv.io/v3/emote-sets/${setId}`);
-                const data = await response.json();
-                if (data.emotes && data.emotes.length > 0) {
-                    emotes = data.emotes.map(emote => {
-                        const img = new Image();
-                        img.src = `https://cdn.7tv.app/emote/${emote.id}/2x.webp`;
-                        return {
-                            url: `https://cdn.7tv.app/emote/${emote.id}/2x.webp`,
-                            name: emote.name,
-                            img: img
-                        };
-                    });
-                    createParticles();
-                }
-            } catch (error) {
-                console.error('Fehler beim Laden des Sets:', error);
-            }
-        }
-    });
-
-    // Füge dies zu den bestehenden Event Listenern hinzu
-    document.getElementById('pongMode').addEventListener('click', () => {
-        window.location.href = 'pong.html';
-    });
-
-    // Creator Modal
-    const creatorModal = document.getElementById('creatorModal');
-    const closeCreator = document.getElementById('closeCreator');
-    const creatorButton = document.getElementById('creatorButton');
-
-    creatorButton.addEventListener('click', () => {
-        creatorModal.style.display = 'flex';
-    });
-
-    closeCreator.addEventListener('click', () => {
-        creatorModal.style.display = 'none';
-    });
-
-    // Schließe das Creator-Modal wenn außerhalb geklickt wird
-    window.addEventListener('click', (event) => {
-        if (event.target === creatorModal) {
-            creatorModal.style.display = 'none';
-        }
-    });
-});
 
 // Start Animation
 animate();
-
-// Event Listener für das Schließen der Einstellungen
-document.getElementById('closeSettings').addEventListener('click', () => {
-    document.getElementById('settingsModal').style.display = 'none';
-});
-
-// Optional: Schließen mit ESC-Taste
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.getElementById('settingsModal').style.display = 'none';
-    }
-});
